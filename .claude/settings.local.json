@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p \"E:/Escritorio/Dev/enigma/static-ad-generator/skills/references\")",
+      "Bash(mkdir -p \"E:/Escritorio/Dev/enigma/static-ad-generator/brands\")",
+      "WebSearch",
+      "WebFetch(domain:ai.google.dev)",
+      "Bash(python -c ':*)",
+      "Bash(ffmpeg -version)",
+      "Bash(magick -version)",
+      "Bash(pip install:*)",
+      "WebFetch(domain:drinklmnt.com)",
+      "WebFetch(domain:brandfetch.com)",
+      "WebFetch(domain:consciouscommerceco.com)",
+      "WebFetch(domain:newsletter.consciouscommerceco.com)",
+      "WebFetch(domain:www.amazon.com)",
+      "Bash(python:*)",
+      "Bash(conda --version)",
+      "Bash(cmd.exe:*)"
+    ]
+  }
+}

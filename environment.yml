@@ -1,0 +1,19 @@
+name: static-ad-generator
+
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  - python=3.11
+  - pip
+
+  # image handling
+  - pillow
+
+  - pip:
+      # Google AI Studio / Gemini API (Nano Banana 2)
+      - google-genai
+
+      # AVIF support for Pillow (packaging image conversion)
+      - pillow-avif-plugin
