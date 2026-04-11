@@ -16,7 +16,13 @@
       "WebFetch(domain:www.amazon.com)",
       "Bash(python:*)",
       "Bash(conda --version)",
-      "Bash(cmd.exe:*)"
+      "Bash(cmd.exe:*)",
+      "Bash($GH auth:*)",
+      "WebFetch(domain:www.siigo.com)",
+      "WebFetch(domain:colombiafintech.co)",
+      "WebFetch(domain:www.facebook.com)",
+      "WebFetch(domain:www.comparasoftware.co)",
+      "WebFetch(domain:www.scribd.com)"
     ]
   }
 }

@@ -6,31 +6,54 @@ Now run Phase 2. Read the template prompts file at skills/references/template-pr
 
 
 # Phase 3: Run Image Generation
-Now run Phase 3, but only for templates 1, 7, 9, 13, and 15. Read the skll file at skills/SKILL.md, then copy the generate_add.py script from skills/references/generate_ads.py into brands/lmnt/. Run the script with --templates 1,7,13,9,15 against brands/lmnt/prompts.json using the product images in brands/lmnt/product-images/.
+Now run Phase 3, but only for templates 1, 7, 9, 13, and 15. Read the skill file at skills/SKILL.md, then run:
+  python skills/references/generate_ads.py --brand lmnt --type product --templates 1,7,9,13,15
 
 
+# ───────────────────────────────────────────
+# Example: Service / SaaS brand (e.g. Notion)
+# ───────────────────────────────────────────
+
+# Phase 1 (Service): Create the Brand DNA
+# Read the skill file at skills/SKILL.md. Run Phase 1 (Service variant) for Notion. The brand URL is https://www.notion.so/ and the specific product is Notion Teams. Build the Brand DNA document and save it to brands/notion/brand-dna.md.
+
+# Phase 2 (Service): Run Prompt Generation
+# Read the service template prompts file at skills/references/service-template-prompts.md and the Brand DNA at brands/notion/brand-dna.md. Fill in all 35 service templates with Notion-specific details for Notion Teams. Before generating, check which brand-assets/ subfolders are populated and skip templates with missing required_assets. Save the output as brands/notion/prompts.json.
+
+# Phase 3 (Service): Run Image Generation
+# First run --recommend to check asset coverage:
+#   python skills/references/generate_ads.py --brand notion --type service --recommend
+# Then generate (all or selective):
+#   python skills/references/generate_ads.py --brand notion --type service
+#   python skills/references/generate_ads.py --brand notion --type service --templates 1,4,13
+#   python skills/references/generate_ads.py --brand notion --type service --dry-run
 
 
 # https://www.youtube.com/watch?v=tFyKaGP64M4
 # https://www.youtube.com/watch?v=ibzfKRRSHhU&pp=ugUEEgJlbg%3D%3D
 
 
+  Architecture change — script now lives in references/ permanently:
 
+  # Product brands:
+  python skills/references/generate_ads.py --brand lmnt --type product
+  python skills/references/generate_ads.py --brand lmnt --type product --templates 1,7,13
+  python skills/references/generate_ads.py --brand lmnt --type product --resolution 1K --variations 2
+  python skills/references/generate_ads.py --brand lmnt --type product --dry-run
 
-  Architecture change — script now lives in references/ permanently:                                                                                   
-                                                                                                                                                       
-  # From the project root, after any Phase 2:
-  python skills/references/generate_ads.py --brand lmnt                                                                                                
-  python skills/references/generate_ads.py --brand brandname2
-  python skills/references/generate_ads.py --brand lmnt --templates 1,7,13
-  python skills/references/generate_ads.py --brand lmnt --resolution 1K --variations 2
-  python skills/references/generate_ads.py --brand lmnt --dry-run
+  # Service/SaaS brands:
+  python skills/references/generate_ads.py --brand notion --type service
+  python skills/references/generate_ads.py --brand notion --type service --recommend
+  python skills/references/generate_ads.py --brand notion --type service --templates 1,4,13
+  python skills/references/generate_ads.py --brand notion --type service --dry-run
 
   How it auto-locates everything:
   - PROJECT_ROOT = 3 levels above the script (static-ad-generator/)
   - brands/{brand}/prompts.json → prompts
-  - brands/{brand}/product-images/ → reference images
+  - brands/{brand}/product-images/ → reference images (product)
+  - brands/{brand}/brand-assets/ → categorized assets (service): screenshots/, team/, logos/, icons/
   - brands/{brand}/outputs/ → where images are saved
   - env/.env.local → API key (no need to export every session)
+  - --type product|service → selects template map + image loading strategy
 
   If --brand doesn't match, it lists all brands that have a prompts.json ready. No more copying the script into each brand folder.
