@@ -17,3 +17,9 @@ dependencies:
 
       # AVIF support for Pillow (packaging image conversion)
       - pillow-avif-plugin
+
+      # Phase 1 & 2: Claude API for brand research + prompt generation
+      - anthropic
+
+      # Phase 1: JS-rendered web scraping for brand sites
+      - playwright

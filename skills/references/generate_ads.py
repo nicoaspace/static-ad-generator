@@ -71,7 +71,7 @@ ENV_FILE     = PROJECT_ROOT / "env" / ".env.local"
 # ──────────────────────────────────────────────────────────────────────────────
 
 MODEL              = "gemini-3.1-flash-image-preview"
-DEFAULT_RESOLUTION = "2K"    # 512 | 1K | 2K | 4K
+DEFAULT_RESOLUTION = "1K"    # 512 | 1K | 2K | 4K
 DEFAULT_VARIATIONS = 4       # images per template
 MAX_REF_IMAGES     = 10      # Gemini hard limit for reference images per call
 RATE_LIMIT_PAUSE   = 1       # seconds between variations (free-tier safety)

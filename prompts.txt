@@ -1,8 +1,8 @@
 ## Phase 1: Create the Brand DNA
-Read the skill file at skills/SKILL.md. then run Phase 1 for LMNT. The brand URL is https://drinklmnt.com/ and the specific product is the LMNT Recharge Electrolyte Drink. Build the Brand DNA document and save it to brands/lmnt/brand-dna.md.
+python skills/references/phase1_brand_dna.py --brand lmnt --url https://drinklmnt.com/ --product "LMNT Recharge Electrolyte Drink" --type product
 
 # Phase 2: Run Prompt Generation
-Now run Phase 2. Read the template prompts file at skills/references/template-prompts.md and the Brand DNA at brands/lmnt/brand-dna.md. Fill in all 40 templates with LMNT-specific details for the Recharge Electrolyte Drink. Save the output as brands/lmnt/prompts.json.
+python skills/references/phase2_prompt_gen.py --brand lmnt --type product
 
 
 # Phase 3: Run Image Generation
@@ -15,10 +15,10 @@ Now run Phase 3, but only for templates 1, 7, 9, 13, and 15. Read the skill file
 # ───────────────────────────────────────────
 
 # Phase 1 (Service): Create the Brand DNA
-# Read the skill file at skills/SKILL.md. Run Phase 1 (Service variant) for Notion. The brand URL is https://www.notion.so/ and the specific product is Notion Teams. Build the Brand DNA document and save it to brands/notion/brand-dna.md.
+#   python skills/references/phase1_brand_dna.py --brand notion --url https://www.notion.so/ --product "Notion Teams" --type service
 
 # Phase 2 (Service): Run Prompt Generation
-# Read the service template prompts file at skills/references/service-template-prompts.md and the Brand DNA at brands/notion/brand-dna.md. Fill in all 35 service templates with Notion-specific details for Notion Teams. Before generating, check which brand-assets/ subfolders are populated and skip templates with missing required_assets. Save the output as brands/notion/prompts.json.
+#   python skills/references/phase2_prompt_gen.py --brand notion --type service
 
 # Phase 3 (Service): Run Image Generation
 # First run --recommend to check asset coverage:
