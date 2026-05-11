@@ -386,6 +386,23 @@ async def scrape_brand_site(url: str) -> dict[str, str]:
 # Claude API — Brand Research with web_search tool
 # ──────────────────────────────────────────────────────────────────────────────
 
+def _assistant_content_for_pause_resume(content: list) -> list:
+    """
+    After stop_reason=pause_turn, Anthropic may end content with a web_search
+    server_tool_use before the matching web_search_tool_result arrives.
+    Resubmitting that tail causes 400 (invalid_request_error). Drop only
+    trailing unfinished web_search server_tool_use blocks.
+    """
+    blocks = list(content)
+    while blocks:
+        last = blocks[-1]
+        if getattr(last, "type", None) == "server_tool_use" and getattr(last, "name", None) == "web_search":
+            blocks.pop()
+            continue
+        break
+    return blocks if blocks else list(content)
+
+
 def _build_user_message(brand_name: str, url: str, product: str, brand_type: str,
                         scraped: dict[str, str]) -> str:
     """Build the user message with brand info and scraped content."""
@@ -418,7 +435,8 @@ def run_brand_research(brand_name: str, url: str, product: str, brand_type: str,
     Call Claude API with web_search tool to conduct brand research.
 
     Handles the server-side tool loop: Claude autonomously performs web searches,
-    and we continue the conversation on 'pause_turn' until Claude finishes.
+    and we continue on 'pause_turn' by resubmitting [user, assistant] per Anthropic
+    server-tools guidance (trimming any trailing unfinished web_search tool calls).
 
     Returns the final Brand DNA document text.
     """
@@ -464,9 +482,11 @@ def run_brand_research(brand_name: str, url: str, product: str, brand_type: str,
         if response.stop_reason == "end_turn":
             break
         elif response.stop_reason == "pause_turn":
-            # Continue the conversation — append assistant response, then empty user turn
-            messages.append({"role": "assistant", "content": response.content})
-            messages.append({"role": "user", "content": "Continue your research and complete the Brand DNA document."})
+            # Continuation must match server-tools docs: [user, assistant(paused)] only — no extra
+            # user turn (that triggers 400: web_search tool_use without web_search_tool_result).
+            # Trim trailing web_search uses paused before results were attached.
+            safe_content = _assistant_content_for_pause_resume(response.content)
+            messages.append({"role": "assistant", "content": safe_content})
         else:
             # Unexpected stop reason — collect what we have and break
             print(f"  ⚠ Unexpected stop reason: {response.stop_reason}")

@@ -24,3 +24,8 @@ desktop.ini
 .vscode/
 .idea/
 *.swp
+
+
+*.docx
+*.doc
+*.zip

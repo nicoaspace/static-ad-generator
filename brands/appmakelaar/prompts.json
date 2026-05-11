@@ -1,0 +1,501 @@
+{
+  "brand": "AppMakelaar",
+  "brand_type": "service",
+  "product": "AI-Driven Software Development & Automation Services",
+  "generated_at": "2026-05-11T20:33:01.940000+00:00",
+  "prompt_modifier": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional.",
+  "asset_scan": {
+    "screenshots": "✓ 1 image(s)",
+    "team": "✓ 1 image(s)",
+    "logos": "✓ 1 image(s)",
+    "icons": "✓ 2 image(s)"
+  },
+  "prompts": [
+    {
+      "template_number": 1,
+      "template_name": "headline-ui-hero",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference. Match the exact brand colors, typography style, and UI design precisely. Create: a static ad with a clean white background. Top third: large bold sans-serif headline reading 'Nul personeelskosten. Alleen resultaat.' Below in smaller text: 'Uw brug tussen strategie en technologie'. Bottom half: a laptop displaying the main AI specialist dashboard at a slight angle, soft studio lighting with subtle shadow beneath the device. The screen content should clearly show navigation sidebar, key metrics like '60% cost reduction', active AI workforce profiles. AppMakelaar logo bottom right. Clean, authoritative, tech-forward. 4:5 aspect ratio.",
+      "aspect_ratio": "4:5",
+      "required_assets": [
+        "screenshots"
+      ],
+      "preferred_assets": [],
+      "notes": "Hero test for text rendering over UI screenshot"
+    },
+    {
+      "template_number": 2,
+      "template_name": "pricing-plan-tier-offer",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference. Match exact brand colors and typography style. Create: a promotional ad with a split background. Top 60% is corporate blue and bottom 40% is warm cream. Center: three floating service cards arranged in an overlapping fan — each a white rounded-rectangle with subtle shadow showing service name, custom pricing, and 3-4 key benefits. The AI Workforce solution is slightly larger and has an orange 'MEEST POPULAIR' badge. Upper area: large cream text sans-serif reading 'STRATEGIE GRATIS — IMPLEMENTATIE GEGARANDEERD'. Below: 'Geen personeelskosten. Alleen meetbare resultaten.' Behind the service cards, subtly visible: a blurred AppMakelaar dashboard screenshot showing the actual interface. AppMakelaar logo bottom right. 9:16 aspect ratio.",
+      "aspect_ratio": "9:16",
+      "required_assets": [
+        "screenshots"
+      ],
+      "preferred_assets": [
+        "logos"
+      ],
+      "notes": "Core pricing offer for custom solution model"
+    },
+    {
+      "template_number": 3,
+      "template_name": "testimonials",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference. Create: a testimonial ad set in modern home office with warm natural light. A laptop showing AppMakelaar's AI specialist dashboard is visible on a wooden desk, slightly out of focus in the background. Overlaid: large bold white sans-serif 'Dit heeft onze bedrijfsvoering compleet getransformeerd'. Below: 'In 2 weken hadden we wat voorheen maanden kostte. Hun AI-specialisten werken 24/7 zonder sick days. Tot 60% kostenbesparing versus traditioneel inhuren. Marcus van der Berg, CTO bij TechScale.' Five filled corporate blue stars. AppMakelaar logo bottom right in white. Shot on 35mm f/2.0. 9:16 aspect ratio.",
+      "aspect_ratio": "9:16",
+      "required_assets": [
+        "screenshots"
+      ],
+      "preferred_assets": [
+        "team"
+      ],
+      "notes": "Dutch testimonial with specific business transformation results"
+    },
+    {
+      "template_number": 4,
+      "template_name": "features-benefits-point-out",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference. Create: an educational diagram-style ad on white background. Top: bold corporate blue text 'Waarom AppMakelaar Anders Is'. Below: AppMakelaar's AI specialist dashboard displayed on a clean device mockup, centered, even lighting. Four callout boxes with connecting lines pointing to specific UI elements: 'AI-Specialisten 24/7', 'Volledige API-integratie', '2-4 weken implementatie', 'Nederlandse kwaliteitsbewaking'. Each has a small corporate blue circle icon. 'appmakelaar.nl' bottom center. AppMakelaar logo bottom right. Clean technical diagram redesigned by a luxury agency. 4:5 aspect ratio.",
+      "aspect_ratio": "4:5",
+      "required_assets": [
+        "screenshots"
+      ],
+      "preferred_assets": [
+        "icons"
+      ],
+      "notes": "Educational feature callouts in Dutch"
+    },
+    {
+      "template_number": 5,
+      "template_name": "bullet-points",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference. Create: a benefit-list ad, split composition on clean white background. Left 40%: a laptop displaying AppMakelaar's main AI specialist workspace, angled slightly toward the viewer with soft shadow. Right 60%: vertical stack of five lines with filled corporate blue circles: 'Setup binnen 2 minuten', 'Geen code vereist', 'Integreert met 50+ tools', 'Real-time team synchronisatie', 'SOC 2 gecertificeerd'. Clean sans-serif, generous spacing. AppMakelaar logo bottom right. 4:5 aspect ratio.",
+      "aspect_ratio": "4:5",
+      "required_assets": [
+        "screenshots"
+      ],
+      "preferred_assets": [],
+      "notes": "Split composition with Dutch benefit points"
+    },
+    {
+      "template_number": 6,
+      "template_name": "social-proof",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference. Create: a social proof ad on warm cream background. Top: 'Vertrouwd door 100+ Europese SME-bedrijven' in bold corporate blue. Five filled stars with 'Gemiddeld 4.9 van 5 op Google Reviews'. Center: a laptop displaying AppMakelaar's AI specialist dashboard at a slight angle, soft studio lighting. Below: frosted white card with five-star rating, 'Game-changer voor onze workflow', 'AppMakelaar heeft ons van een traditioneel softwarebureau naar een AI-gedreven partner gebracht. De kostenbesparing en snelheid zijn ongeëvenaard. Sarah de Vries, Operations Director.' Below card: 'As Featured In' with five grayscale publication logos like Emerce, Frankwatching, MT, Sprout, Adformatie. AppMakelaar logo bottom right. 4:5 aspect ratio.",
+      "aspect_ratio": "4:5",
+      "required_assets": [
+        "screenshots",
+        "logos"
+      ],
+      "preferred_assets": [],
+      "notes": "Dutch social proof with European SME focus"
+    },
+    {
+      "template_number": 7,
+      "template_name": "us-vs-them-comparison",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference. Create: a side-by-side ad divided vertically. Left: muted gray-blue background. Right: corporate blue. Center top: white circle with 'VS'. Left header: 'Traditionele bureaus' + a simplified generic cluttered interface mockup + list with X marks: 'Maandenlange implementatie', 'Handmatige processen', 'Alleen tijdens kantooruren', 'Personeelskosten en overhead', 'Beperkte schaling'. Right header: 'AppMakelaar' + AppMakelaar dashboard screenshot showing clean modern UI + list with checkmarks: '2-4 weken implementatie', 'AI-gedreven automatisering', '24/7 beschikbaarheid', 'Nul personeelskosten', 'Onbeperkte schaling'. AppMakelaar logo bottom right. 4:5 aspect ratio.",
+      "aspect_ratio": "4:5",
+      "required_assets": [
+        "screenshots"
+      ],
+      "preferred_assets": [
+        "logos"
+      ],
+      "notes": "Dutch comparison against traditional agencies"
+    },
+    {
+      "template_number": 8,
+      "template_name": "workflow-before-after",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference for brand colors and tone. Create: a two-panel workflow comparison ad. Full frame divided vertically 50/50. LEFT panel: desaturated gray-blue background. Header in bold dark text: 'Zonder AppMakelaar'. Below: a chaotic visual representing the old workflow — scattered project management tools, multiple overlapping browser tabs showing different systems, spreadsheet chaos, crossed-out calendar appointments, email overload icons. Small red X marks next to pain points: '6 maanden implementatietijd', 'Verloren in email threads', 'Data verspreid over 5 tools'. Mood: cluttered, stressful, disorganized. RIGHT panel: corporate blue background. Header in bold blue text: 'Met AppMakelaar'. Below: a clean, organized visual — AppMakelaar dashboard screenshot showing the streamlined AI specialist workflow. Green checkmarks next to benefits: 'Eén dashboard voor alles', 'Real-time sync automatisch', '2 weken, niet 6 maanden'. Mood: calm, organized, efficient. Center divider: thin line with arrow pointing left to right. Bottom center: 'Zie het verschil — plan een gesprek'. 1:1 aspect ratio.",
+      "aspect_ratio": "1:1",
+      "required_assets": [
+        "screenshots"
+      ],
+      "preferred_assets": [
+        "icons"
+      ],
+      "notes": "Dutch before/after workflow transformation"
+    },
+    {
+      "template_number": 9,
+      "template_name": "negative-marketing-bait-switch",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference. Create: Background is a close-up of AppMakelaar's AI specialist dashboard, slightly blurred. Center: white rounded-rectangle review card (Google Reviews-style). Gray user icon, 'Pieter K., IT Manager', one gold star + four gray, green 'Geverifieerde klant' badge, bold text: 'Ik heb al weken geen handmatig werk gedaan. Totaal onze processen vernietigd — ik besteedde uren hieraan.'. Bottom: bold white sans-serif 'DE REVIEWS ZIJN BINNEN.'. AppMakelaar logo bottom right. 4:5 aspect ratio.",
+      "aspect_ratio": "4:5",
+      "required_assets": [
+        "screenshots"
+      ],
+      "preferred_assets": [],
+      "notes": "Dutch bait-and-switch negative review format"
+    },
+    {
+      "template_number": 10,
+      "template_name": "press-editorial",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference. Create: a press ad on off-white linen background. Top: 'Featured In' in small corporate blue uppercase wide-tracked text. Below: five grayscale publication logos like Emerce, Sprout, MT/Sprout, Frankwatching, Adformatie. Center: italic serif pull-quote in corporate blue: '\"Het platform dat stilletjes traditionele softwarebureaus vervangt voor een hele generatie Nederlandse bedrijven\" — Emerce' with attribution. Lower third: a laptop displaying AppMakelaar's AI specialist dashboard at 85mm f/2.8 perspective, soft side light. AppMakelaar logo bottom left. Generous white space. Full-page tech feature energy. 4:5 aspect ratio.",
+      "aspect_ratio": "4:5",
+      "required_assets": [
+        "screenshots",
+        "logos"
+      ],
+      "preferred_assets": [
+        "team"
+      ],
+      "notes": "Dutch press authority positioning"
+    },
+    {
+      "template_number": 11,
+      "template_name": "pull-quote-review-card",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference. Match the exact brand colors and tone precisely. Create: a review-driven ad with a solid soft corporate blue color block background filling the entire image. Top half: large bold italic serif text in white with curly quotation marks reading '\"Dit verving 4 tools voor ons hele team\"'. Directly below the quote: five large filled gold star icons in a horizontal row. Bottom left, overlapping the color background: a white rounded-corner review card with subtle shadow, containing: a small gray circular default avatar icon, beside it 'Lisa V.' in bold dark sans-serif with a small 🇳🇱, below the name a blue checkmark icon with 'Geverifieerde Reviewer' in small blue text. Below the reviewer info: the review body text in medium-weight dark sans-serif, 4-6 lines: 'AppMakelaar heeft onze workflow compleet getransformeerd. Van 5 verschillende tools naar één AI-gedreven platform. De implementatie duurde maar 2 weken en we besparen nu 60% op IT-kosten. Onze projecten worden nu automatisch...' ending with '...Lees meer' in bold corporate blue text. Below the review text: 'Was deze review behulpzaam?' in small gray text with a thumbs-up icon and '247' beside it. Bottom right, overlapping both the card and the color background: a laptop displaying AppMakelaar's AI specialist dashboard angled slightly toward the viewer with a subtle shadow beneath. 1:1 aspect ratio.",
+      "aspect_ratio": "1:1",
+      "required_assets": [
+        "screenshots"
+      ],
+      "preferred_assets": [],
+      "notes": "Dutch pull-quote review with truncation hook"
+    },
+    {
+      "template_number": 12,
+      "template_name": "integration-ecosystem",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference. Match the exact brand colors and typography style precisely. Create: an integration ecosystem ad on a clean white background. Top: bold corporate blue sans-serif headline reading 'Integreert met elke tool die uw team al gebruikt'. Center: AppMakelaar logo large and prominent in the middle, surrounded by a radial orbit pattern of 14 recognizable third-party tool logos like Slack, Microsoft 365, Google Workspace, Salesforce, HubSpot, Jira, Figma, Zapier, Stripe, GitHub, Notion, Asana, Trello, Monday.com arranged in concentric circles. Thin corporate blue connector lines linking the center logo to each integration. Below the logo cloud: a subtle device showing AppMakelaar dashboard with an integrations settings panel visible. Bottom: smaller text '50+ integraties en groeiend'. AppMakelaar logo bottom right. Clean, technical, trustworthy. 1:1 aspect ratio.",
+      "aspect_ratio": "1:1",
+      "required_assets": [
+        "logos",
+        "screenshots"
+      ],
+      "preferred_assets": [
+        "icons"
+      ],
+      "notes": "Dutch integration ecosystem showcase"
+    },
+    {
+      "template_number": 13,
+      "template_name": "stat-surround-ui-hero",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference. Match the exact brand design, colors, and typography style precisely. Create: a static ad on a white-to-soft blue-gray gradient background, gradient fading from top to bottom. Top: large bold dark charcoal sans-serif headline reading 'Zo snel dat u vergeet dat u dit handmatig deed.' Center: a device displaying AppMakelaar's AI specialist dashboard on a clean background, soft studio lighting. Floating near the device: a small circular badge reading 'STRATEGIE GRATIS' in orange. Flanking the device on both sides: four stat callouts with curved arrows pointing toward the screen. Left side top: '60%' in oversized bold text with 'KOSTENBESPARING' below. Left side bottom: '24/7' with 'BESCHIKBAARHEID'. Right side top: '100+' with 'EUROPESE KLANTEN'. Right side bottom: '4.9★' with 'OP GOOGLE' and five filled gold stars beneath. Arrows are simple hand-drawn-style curved lines in orange. Clean, informational, tech-forward. 1:1 aspect ratio.",
+      "aspect_ratio": "1:1",
+      "required_assets": [
+        "screenshots"
+      ],
+      "preferred_assets": [
+        "icons"
+      ],
+      "notes": "Dutch stat-surround with key metrics"
+    },
+    {
+      "template_number": 14,
+      "template_name": "plan-tier-showcase-benefit-bar",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference. Match the exact brand design, colors, and typography style precisely. Create: a static ad on a soft blue-to-indigo gradient background. Top: oversized bold white all-caps sans-serif headline reading 'ALLES WAT UW TEAM NODIG HEEFT. ÉÉN PLATFORM.' Below headline: a horizontal orange banner bar divided into four equal segments separated by thin vertical lines, each containing a two-word benefit label in white text: 'Team Sync', 'AI Automatisering', 'Diepgaande Analytics', 'Custom Workflows'. Center-to-bottom: three service tier cards arranged side-by-side — each a white rounded-rectangle card showing: service name in bold at top, custom pricing, and 4-5 feature bullets with checkmarks. The AI Workforce solution is slightly elevated with an orange border and 'MEEST POPULAIR' badge. Behind the cards, subtly visible: a blurred AppMakelaar dashboard screenshot at reduced opacity. AppMakelaar logo bottom left corner. Bright, clean, confident and professional. 1:1 aspect ratio.",
+      "aspect_ratio": "1:1",
+      "required_assets": [
+        "screenshots"
+      ],
+      "preferred_assets": [
+        "icons"
+      ],
+      "notes": "Dutch service tier showcase with benefit bar"
+    },
+    {
+      "template_number": 15,
+      "template_name": "social-comment-screenshot-ui",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference. Match the exact brand design and colors precisely. Create: a static ad on a clean white background. Top: oversized bold black sans-serif headline reading 'ALS UW TEAM NOG STEEDS EXCEL GEBRUIKT HIERVOOR..😅' Center: a LinkedIn comment card with light gray rounded-rectangle background containing: a small circular profile avatar (top left), bold name 'Marcus Chen', and a multi-sentence review in regular-weight sans-serif: 'Net overgestapt naar AppMakelaar en wow. Wat we vroeger in weken deden, gebeurt nu automatisch. Hun AI-specialisten werken letterlijk 24/7. Geen sick days, geen overhead, gewoon resultaat.' Small gray timestamp '2d' below the comment. Bottom center: a laptop displaying AppMakelaar's AI specialist dashboard photographed at a slight angle on white, soft studio lighting. No brand logo. No stars. The rawness is the point — this should look like someone screenshotted a real comment and dropped a screenshot below it. 1:1 aspect ratio.",
+      "aspect_ratio": "1:1",
+      "required_assets": [
+        "screenshots"
+      ],
+      "preferred_assets": [],
+      "notes": "Dutch social comment with organic feel"
+    },
+    {
+      "template_number": 16,
+      "template_name": "curiosity-gap-hook-quote",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference. Match the exact brand design, colors, and typography style precisely. Create: a static ad on a clean white background. Top center: large orange opening quotation marks. Below: mixed-weight headline in black — the first line in italic serif reading 'Ons hele team', the next two lines in enormous heavy-weight bold all-caps sans-serif reading 'STOPTE MET WERKEN TWEE DAGEN', followed by a smaller sentence-case line reading 'omdat we alles geautomatiseerd hadden met AppMakelaar en niets meer handmatig hoefden te doen'. Closing quotation marks and '- Sarah K., Hoofd Operaties' in regular weight. Left side bottom third: a device displaying AppMakelaar's AI automation dashboard at a slight angle. To the left of the device: a circular seal reading '4.9★ op Google'. Right side bottom third: five filled orange stars and bold text reading '200+' 5-Star Reviews with an AppMakelaar icon. Bottom edge: small text 'Probeer gratis — geen creditcard vereist.' 1:1 aspect ratio.",
+      "aspect_ratio": "1:1",
+      "required_assets": [
+        "screenshots"
+      ],
+      "preferred_assets": [],
+      "notes": "Dutch curiosity gap testimonial with bait-and-switch"
+    },
+    {
+      "template_number": 17,
+      "template_name": "verified-review-card",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference. Match the exact brand design, colors, and typography style precisely. Create: a static ad on a solid corporate blue background. Top: large bold white serif pull-quote reading '\"Dit platform betaalde zichzelf terug in de eerste week.\"' in quotation marks. Below the quote: five filled gold stars, large. Center-left: a white rounded-rectangle review card with subtle shadow containing: gray circular avatar icon, bold name 'Priya N.' with 🇳🇱, blue checkmark and 'Geverifieerde Klant' in corporate blue text, then 3-4 sentences of review body text in regular weight dark text: 'AppMakelaar heeft ons van handmatige processen naar volledige automatisering gebracht. Hun 8-stappen methodologie werkt echt. De AI-specialisten zijn altijd beschikbaar en de kostenbesparing is meetbaar.' At the bottom of the card: a blue '...Lees meer' link and 'Was deze review behulpzaam? 👍 150'. Right side, overlapping the card edge: a laptop displaying AppMakelaar's dashboard at a slight angle, soft studio lighting, casting a gentle shadow on the background. No brand logo needed. The review UI is the trust mechanic. 1:1 aspect ratio.",
+      "aspect_ratio": "1:1",
+      "required_assets": [
+        "screenshots"
+      ],
+      "preferred_assets": [],
+      "notes": "Dutch verified review card format"
+    },
+    {
+      "template_number": 18,
+      "template_name": "stat-surround-workspace-lifestyle",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference. Match the exact brand design, colors, and typography style precisely. Create: a static ad on a white background with a workspace lifestyle arrangement. Top: bold orange filled banner bar spanning full width, white all-caps sans-serif reading 'UW VOLLEDIGE WORKFLOW. ÉÉN PLATFORM. 2 MINUTEN SETUP.' Center: a person's hands on a laptop keyboard with AppMakelaar visible on the screen in mid-frame. Scattered around the workspace: coffee cup, notebook, phone showing mobile app, wireless mouse, plant arranged organically to fill corners and edges, slightly out of focus. Four stat callouts with curved orange arrows pointing toward the laptop screen: '60% / GOEDKOPER', '100+ / EUROPESE KLANTEN', '50+ / INTEGRATIES', '4.9★ / OP GOOGLE' with five small gold stars. Stats in bold black, labels in all-caps regular weight. Bright, flat studio lighting. Productive, clean, information-dense but scannable. 1:1 aspect ratio.",
+      "aspect_ratio": "1:1",
+      "required_assets": [
+        "screenshots"
+      ],
+      "preferred_assets": [
+        "team"
+      ],
+      "notes": "Dutch lifestyle workspace with stats"
+    },
+    {
+      "template_number": 19,
+      "template_name": "highlighted-annotated-testimonial",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference. Match the exact brand design, colors, and typography style precisely. Create: a static ad on a clean white background. Top left: circular customer headshot photo of smiling man, mid-40s, glasses, wearing a casual button-down. To the right of the photo: bold name 'David L.' with a blue checkmark and 'CTO, Series A Startup'. Below: a long-form customer quote in large regular-weight black sans-serif type spanning most of the frame: 'AppMakelaar heeft onze technische schuld in één klap weggenomen. Hun AI-gedreven aanpak bespaarde ons maanden ontwikkeltijd en hun Nederlandse projectmanagement zorgt voor duidelijke communicatie. We hebben nu een systeem dat schaalt zonder extra personeelskosten.' Key phrases within the quote are highlighted with bright lime green rectangular background fills behind the text: 'bespaarde ons maanden ontwikkeltijd', 'zonder extra personeelskosten'. Bottom right: a device displaying AppMakelaar dashboard at a slight angle, partially cropped at the bottom edge. To the left of the device: a circular 'RATED #1 ON GOOGLE / 2026' seal in orange with white text. AppMakelaar logo bottom left corner, small. 1:1 aspect ratio.",
+      "aspect_ratio": "1:1",
+      "required_assets": [
+        "screenshots"
+      ],
+      "preferred_assets": [
+        "team"
+      ],
+      "notes": "Dutch highlighted testimonial with key phrases emphasized"
+    },
+    {
+      "template_number": 20,
+      "template_name": "advertorial-editorial-content",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference for tone ONLY. Do NOT use polished ad layouts. This should look like organic editorial content. Create: a full-bleed moody portrait photo of young professional at a standing desk in a modern Amsterdam loft office, ambient monitor glow, warm amber-toned lighting, shot on 50mm f/1.8, shallow depth of field, cinematic color grade with warm highlights and cool shadows. Lower 45% of the frame is a text overlay zone: a prominent white rounded-rectangle pill label reading 'TRENDING' in centered uppercase sans-serif. Below: very large, dominant, bold all-caps condensed sans-serif headline filling the width of the frame in white text with key words in orange: 'APPMAKELAAR EXPLODEERT OP LINKEDIN — WAAROM ELKE CTO OVERSTAPT'. The headline should be oversized — at least 35% of the total frame height. Bottom center: '@appmakelaar.nl' in small white text. No app screenshot, no CTA button, no stars. This should read like a tech blog or industry account post, not a paid ad. 4:5 aspect ratio.",
+      "aspect_ratio": "4:5",
+      "required_assets": [],
+      "preferred_assets": [
+        "team"
+      ],
+      "notes": "Dutch editorial content disguised as organic post"
+    },
+    {
+      "template_number": 21,
+      "template_name": "bold-statement-reaction",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference. Match the exact brand design, colors, and visual tone precisely. Create: a static ad on a vibrant deep blue to electric purple gradient background, flowing diagonally from upper left to lower right. Upper left: oversized playful bold geometric sans-serif white headline reading 'Uw spreadsheet belde. Het wil scheiden.' — text should feel confident, witty, and direct, not rigid or corporate. Right side: a phone screen tilted slightly showing AppMakelaar's mobile AI specialist dashboard floating with a subtle shadow, as if hovering above the gradient. Device sits center-right, slightly below midline. Bottom left: AppMakelaar logo in white with 'Het AI-gedreven werkruimte voor teams' in smaller text below. No stats, no reviews, no badges. The gradient and the headline do all the work. 1:1 aspect ratio.",
+      "aspect_ratio": "1:1",
+      "required_assets": [
+        "screenshots"
+      ],
+      "preferred_assets": [],
+      "notes": "Dutch bold statement with playful copy"
+    },
+    {
+      "template_number": 22,
+      "template_name": "roi-calculator-visual",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference. Match the exact brand colors and typography style precisely. Create: a ROI visualization ad on a clean white background. Top: bold corporate blue sans-serif headline reading 'Wat zou uw team doen met 20 extra uur per week?'. Center: a large infographic-style visual with three horizontal rows, each comparing a metric before and after. Row 1: 'Handmatige data-invoer' — left shows '15 uur/week' in muted red with a shrinking bar, right shows '0 uur/week' in corporate blue with bold checkmark. Row 2: 'Tool abonnementen' — '€2.400/maand voor 5 tools' → '€149/maand voor alles'. Row 3: 'Tijd tot eerste rapport' — '3 dagen' → '3 minuten'. Between the before/after: a thin vertical dotted line with AppMakelaar logo at the dividing point. Bottom: a subtle device showing AppMakelaar dashboard at small scale. 'Bereken uw besparing op appmakelaar.nl' in small text. Clean, data-forward, persuasive. 1:1 aspect ratio.",
+      "aspect_ratio": "1:1",
+      "required_assets": [
+        "screenshots"
+      ],
+      "preferred_assets": [
+        "icons"
+      ],
+      "notes": "Dutch ROI calculator with specific time/cost savings"
+    },
+    {
+      "template_number": 23,
+      "template_name": "long-form-manifesto",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference. Match exact brand typography style and tone. Create: a copy-dominant manifesto ad on a clean white background. No background imagery — text is the entire creative. Top: oversized bold black serif headline reading 'Wij zijn niet de goedkoopste. Met opzet.' spanning the top 15%. Below: left-aligned body copy in smaller regular-weight black text, structured as short punchy sentences and line breaks: Gratis tools besparen geen tijd. Ze kosten tijd. Uw team verdient beter dan copy-paste workflows. Nederlandse kwaliteit betekent duidelijke communicatie. AI-specialisten die 24/7 werken zonder sick days. Geen overhead, geen personeelskosten. Alleen meetbare resultaten. Wij geloven in premium service voor echte transformatie. AppMakelaar is een investering, geen uitgave. The copy flows through acknowledging the objection, listing what corners free tools cut, reframing premium as investment, closing with a confident brand statement. Bottom 20%: a laptop displaying AppMakelaar's AI specialist dashboard centered with soft shadow. No icons, no badges, no CTA button. The writing IS the ad. 1:1 aspect ratio.",
+      "aspect_ratio": "1:1",
+      "required_assets": [
+        "screenshots"
+      ],
+      "preferred_assets": [],
+      "notes": "Dutch manifesto copy defending premium positioning"
+    },
+    {
+      "template_number": 24,
+      "template_name": "app-screenshot-comment-callout",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference. Match the exact brand design and interface precisely. Create: a social proof ad. Top 55%: AppMakelaar's AI specialist dashboard displayed in a clean laptop mockup centered on a clean white background, studio-lit with soft shadow. A subtle UI detail visible like a notification badge showing '6 AI specialists actief'. Bottom 45%: a realistic LinkedIn comment card. Left: small circular profile photo of a woman in her 30s, professional headshot, dark blazer. Bold name 'Rachel M.' with 'Product Lead bij TechNova' above the comment. Comment text in regular weight: 'Net overgestapt naar AppMakelaar en de impact is ongelofelijk. Wat vroeger weken kostte wordt nu geautomatiseerd door hun AI-specialisten. Nederlandse kwaliteit, internationale efficiëntie.' Below comment: '2w' · Like · Reply in gray. Bottom right of comment: reaction emojis (thumbs up + celebrate) with '47'. Should look like an organic screenshot, not designed. 1:1 aspect ratio.",
+      "aspect_ratio": "1:1",
+      "required_assets": [
+        "screenshots"
+      ],
+      "preferred_assets": [],
+      "notes": "Dutch social comment with organic LinkedIn feel"
+    },
+    {
+      "template_number": 25,
+      "template_name": "us-vs-them-feature-split",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference. Match the exact brand design and colors precisely. Create: a side-by-side comparison ad divided vertically into two equal halves. Left half: vibrant corporate blue background. AppMakelaar dashboard screenshot displayed on a clean device mockup showing the modern, clean interface. Brand logo in bold white upper-left. Below device: vertical stack of 4 benefits, each with a green circle checkmark emoji: 'REAL-TIME SAMENWERKING / AI-GEDREVEN AUTOMATISERING / 50+ INTEGRATIES / MOBILE-FIRST ONTWERP' in bold white uppercase. Right half: pale gray background. A generic cluttered spreadsheet screenshot, desaturated. Header: 'Traditionele Tools' in dark text. Below: vertical stack of 4 weaknesses, each with a red circle X emoji: 'HANDMATIGE UPDATES / COPY-PASTE WORKFLOWS / GESILO'DE DATA / ALLEEN DESKTOP' in bold dark uppercase. Center divider: a comic-style 'VS' burst graphic in coral. 1:1 aspect ratio.",
+      "aspect_ratio": "1:1",
+      "required_assets": [
+        "screenshots"
+      ],
+      "preferred_assets": [
+        "logos"
+      ],
+      "notes": "Dutch feature comparison with modern vs traditional tools"
+    },
+    {
+      "template_number": 26,
+      "template_name": "stat-callout-data-driven",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference. Match exact brand colors and typography. Create: a statistic-led ad. Top 50%: lifestyle workspace photography — a team huddled around a laptop screen showing AppMakelaar dashboard in a bright modern Amsterdam office on a warm, professional, soft-focus background. App interface visible in frame on the device. Middle: AppMakelaar logo centered with thin horizontal rules on either side as a visual divider. Bottom 50%: dark gradient overlay fading from transparent to deep navy. Large bold uppercase sans-serif text: 'TEAMS DIE APPMAKELAAR GEBRUIKEN RAPPORTEREN 60% SNELLERE IMPLEMENTATIE EN 40% MINDER MEETINGS PER WEEK.' Key result phrases highlighted in orange. The statistic IS the headline — no separate subhead needed. 4:5 aspect ratio.",
+      "aspect_ratio": "4:5",
+      "required_assets": [
+        "screenshots"
+      ],
+      "preferred_assets": [
+        "team"
+      ],
+      "notes": "Dutch data-driven lifestyle with team metrics"
+    },
+    {
+      "template_number": 27,
+      "template_name": "benefit-checklist-split",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference. Match the exact brand design and colors precisely. Create: an information-dense benefit ad, split composition. Left 45%: AppMakelaar's AI specialist dashboard displayed in a clean device mockup at a slight overhead angle, showing multiple AI specialist panels, active project cards, and workflow automation charts. Soft studio lighting, clean surface. Right 55%: white background. Top: five gold stars with '200+ REVIEWS OP GOOGLE' in corporate blue. AppMakelaar logo. Below: corporate blue sans-serif headline: 'Gemaakt voor teams die snel bewegen'. Then 3 checkmark benefit rows, each with a filled corporate blue circle checkmark + bold text: 'Setup in minder dan 2 minuten — geen code vereist', 'Real-time sync op alle apparaten', 'SOC 2 Type II gecertificeerde beveiliging'. Bottom right: large rounded orange CTA button reading 'START GRATIS PROEF'. 1:1 aspect ratio.",
+      "aspect_ratio": "1:1",
+      "required_assets": [
+        "screenshots"
+      ],
+      "preferred_assets": [
+        "icons"
+      ],
+      "notes": "Dutch benefit checklist with security emphasis"
+    },
+    {
+      "template_number": 28,
+      "template_name": "feature-arrow-callout",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference. Match exact brand colors and typography style. Create: a UI annotation ad on a clean white background. Top: italic serif headline 'Alles wat uw team nodig heeft. Niets wat het niet nodig heeft.' in corporate blue. Below in massive bold sans-serif: 'ALLES-IN-ÉÉN'. Center: a large AppMakelaar dashboard screenshot showing the main AI specialist workspace displayed in a clean device mockup. Four curved arrows in corporate blue pointing from specific UI elements outward to four benefit callout labels arranged around the device in bold corporate blue text: 'Real-time samenwerking / Slimme automatiseringen / Custom dashboards / One-click integraties'. Arrows should feel hand-drawn or editorial, not rigid. Bottom: full-width deep navy banner with 'PROBEER GRATIS — GEEN CREDITCARD VEREIST' in bold white with optional rocket emoji accents. 1:1 aspect ratio.",
+      "aspect_ratio": "1:1",
+      "required_assets": [
+        "screenshots"
+      ],
+      "preferred_assets": [
+        "icons"
+      ],
+      "notes": "Dutch UI annotation with feature callouts"
+    },
+    {
+      "template_number": 29,
+      "template_name": "ugc-viral-post-overlay",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference for brand tone ONLY. Do NOT use ad layouts or polish. This should look completely native and organic. Create: a casual selfie of a woman in her late 20s, messy bun, oversized hoodie sitting on the couch with a laptop. iPhone front camera, slightly grainy, home-office lighting, no professional setup. Overlaid in the center of the frame: a realistic screenshot of a LinkedIn post. Username, timestamp, like count. Post title in bold: 'Hot take: als je team in 2026 nog steeds traditionele softwarebureaus gebruikt, verspil je geld'. Post body in regular text: 'AppMakelaar laat zien dat AI-gedreven ontwikkeling niet alleen sneller is, maar ook betrouwbaarder. Nederlandse kwaliteit zonder de overhead.' The post should feel like the person is reacting to it or sharing it — NOT selling a service. No app visible. No brand logo. No CTA. The hook is the opinion. 9:16 aspect ratio.",
+      "aspect_ratio": "9:16",
+      "required_assets": [],
+      "preferred_assets": [],
+      "notes": "Dutch UGC viral opinion post format"
+    },
+    {
+      "template_number": 30,
+      "template_name": "hero-statement-icon-benefit-bar",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference. Match exact brand colors and typography. Create: a bold statement ad. Top 15%: white banner overlay with massive bold corporate blue uppercase sans-serif headline: 'WORKFLOW KILLER.' with a period for punch. Middle 55%: lifestyle workspace photo — person's hands typing on a laptop showing AppMakelaar dashboard, clean desk in Amsterdam office, soft natural light. App interface and branding clearly visible on screen. Bottom 25%: light blue-gray background. Three evenly spaced icon-and-text benefit columns: (clock icon) BESPAAR 10+ UUR/WEEK | (puzzle icon) 50+ INTEGRATIES | (shield icon) ENTERPRISE BEVEILIGING. Icons are simple line-drawn in corporate blue circles. Very bottom edge: scrolling ticker bar in dark corporate blue with repeating text: 'VERTROUWD DOOR 100+ EUROPESE TEAMS WERELDWIJD'. 1:1 aspect ratio.",
+      "aspect_ratio": "1:1",
+      "required_assets": [
+        "screenshots"
+      ],
+      "preferred_assets": [
+        "icons"
+      ],
+      "notes": "Dutch hero statement with icon benefits bar"
+    },
+    {
+      "template_number": 31,
+      "template_name": "comparison-grid-feature-table",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference. Match the exact brand design precisely. Create: a structured comparison grid ad on white background. Top row divided 50/50: Left: AppMakelaar logo large on white with 'AppMakelaar AI Platform' below. Right: 'Traditionele Bureaus' in gray text with a generic tool icon. Below: four horizontal rows spanning full width, each divided 50/50 by a thin black vertical line and separated by thin black horizontal lines. Each row compares one attribute: Row 1: 'AI schrijft uw rapporten' vs 'Handmatige rapportage'. Row 2: 'Setup in 2 minuten' vs '6-weken implementatie'. Row 3: '€149/maand vast tarief' vs '€2500/maand + setup kosten'. Row 4: 'Werkt op elk apparaat' vs 'Alleen desktop'. All text in bold black serif, centered in each cell. No icons, no colors, no checkmarks — the copy contrast does the work. Should feel like a meme-format comparison that would go viral on LinkedIn. 1:1 aspect ratio.",
+      "aspect_ratio": "1:1",
+      "required_assets": [
+        "screenshots"
+      ],
+      "preferred_assets": [
+        "logos"
+      ],
+      "notes": "Dutch meme-style feature comparison grid"
+    },
+    {
+      "template_number": 32,
+      "template_name": "ugc-story-callout-text-bubble",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference for brand colors ONLY. Do NOT use ad layouts or polish. This must look like a real person's Instagram Story. Create: a casual iPhone photo of a person's hand holding a phone displaying AppMakelaar's AI specialist dashboard at a slight angle over a clean desk with a coffee cup and notebook. Natural overhead daylight, slightly warm, iPhone 15 quality. Scattered across the frame: 5 text bubbles using Instagram Story's highlighted text tool. Each bubble has a highlighted background for readability, with varied colors. Bubble 1: 'productivity hack 🚀' large and bold. Bubble 2: 'Wist je dat 80% van de teams nog handmatig data invoert?'. Bubble 3: 'AppMakelaar AI-specialisten doen dit automatisch 24/7 😍'. Bubble 4: 'Week 1 update: al 15 uur per week bespaard! 🎯'. Bubble 5: 'Echt een game-changer voor ons team'. Should feel casual and hand-placed, not designed. 9:16 aspect ratio.",
+      "aspect_ratio": "9:16",
+      "required_assets": [
+        "screenshots"
+      ],
+      "preferred_assets": [],
+      "notes": "Dutch Instagram Story style with text bubbles"
+    },
+    {
+      "template_number": 33,
+      "template_name": "faux-press-news-article",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference. Create: a static ad designed to look like a real online tech news article screenshot. Top 25%: white background with a realistic major publication masthead/logo in large bold black serif text 'Emerce'. Below: thin gray horizontal rule. Small gray text 'Laatste nieuws' left-aligned. Then: bold black serif headline spanning full width: 'Waarom 50+ startups dit kwartaal overstapten naar AppMakelaar — en wat ze ontdekten'. Bottom 60%: two side-by-side photos — one showing a professional at a laptop in a modern Amsterdam office and one showing a close-up of AppMakelaar dashboard on a monitor. Photos should look like editorial photography, not marketing shots — candid, natural lighting, slightly editorial color grading. No brand logo. No CTA. Should look like an organic article screenshot someone would share to their story. 4:5 aspect ratio.",
+      "aspect_ratio": "4:5",
+      "required_assets": [
+        "screenshots"
+      ],
+      "preferred_assets": [
+        "team",
+        "logos"
+      ],
+      "notes": "Dutch press article disguised as organic screenshot"
+    },
+    {
+      "template_number": 34,
+      "template_name": "faux-iphone-notes-app",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference. Match the exact brand design precisely. Create: a static ad disguised as an iPhone Notes app screenshot. Top: realistic iOS status bar (time '10:45', signal bars, wifi icon, battery icon). Below: iOS Notes navigation — blue '< Alle iCloud' back arrow left, share icon and three-dot menu icon right. Below nav: small gray timestamp text '13 juli 2026 10:44'. Main content area on white background: bold black serif headline 'Waarom ik ons hele team overzette naar AppMakelaar'. Below: 3 benefit rows, each with a corporate blue filled circle checkmark + emoji + bold black text: '✅ 📊 Notion + Asana + Slack vervangen (€340/maand → €149/maand)', '✅ ⚡ Setup duurde 10 min, niet 6 weken zoals bij concurrenten', '✅ 🤖 Alleen de AI-functies bespaarden ons al 15 uur/week'. Right side, overlapping the benefit text slightly: a phone displaying AppMakelaar dashboard at a slight angle. Device should feel casually placed into the note layout, breaking the frame slightly. Clean white background throughout. 1:1 aspect ratio.",
+      "aspect_ratio": "1:1",
+      "required_assets": [
+        "screenshots"
+      ],
+      "preferred_assets": [],
+      "notes": "Dutch iPhone Notes disguised comparison list"
+    },
+    {
+      "template_number": 35,
+      "template_name": "hero-ui-showcase-stat-bar",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference. Match the exact brand design and colors precisely. Create: a showcase ad on a clean white background. Top: large bold corporate blue uppercase sans-serif headline: 'DE SNELSTE MANIER OM WORKFLOW TE AUTOMATISEREN'. Below headline: white rounded-rectangle CTA button with corporate blue uppercase text 'PROBEER GRATIS'. Center: a laptop displaying AppMakelaar's AI specialist dashboard in full, hero-lit with soft studio lighting, slight angle creating dimension. Surrounding the device: floating elements like notification badges showing 'AI specialist actief', workflow automation icons, integration logos for Slack/Google/Microsoft, cursor trails arranged in an exploded/radial pattern creating visual energy around the screen. Bottom: a white rounded-pill stat bar spanning the width with three metrics separated by thin vertical lines: '100+ ACTIEVE EUROPESE KLANTEN' | '4.9★ OP GOOGLE' | 'SOC 2 GECERTIFICEERD' in bold corporate blue text. Numbers large and dominant, labels smaller below. 1:1 aspect ratio.",
+      "aspect_ratio": "1:1",
+      "required_assets": [
+        "screenshots"
+      ],
+      "preferred_assets": [],
+      "notes": "Dutch hero showcase with floating UI elements"
+    },
+    {
+      "template_number": 36,
+      "template_name": "onboarding-steps",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference. Match the exact brand colors and typography style precisely. Create: an onboarding steps ad on a clean white background. Top: bold corporate blue sans-serif headline reading 'Klaar en draaiend in 3 stappen. Serieus.' Below: three horizontal steps arranged left-to-right, each containing: a large corporate blue circled number (1, 2, 3), a brief bold label 'Verbind uw tools / Importeer uw data / Nodig uw team uit', and below each label a small device screen showing the corresponding AppMakelaar onboarding screen — integrations picker showing Slack/Google/Microsoft options, import progress bar at 85%, team invite modal with email fields. Between steps: simple arrow connectors in corporate blue. A subtle dotted progress line connects the steps horizontally. Bottom center: 'Gemiddelde setup tijd: 2 minuten' in orange with a stopwatch icon. Below: 'Start gratis — geen creditcard vereist' in smaller text. Clean, educational, reassuring. 1:1 aspect ratio.",
+      "aspect_ratio": "1:1",
+      "required_assets": [
+        "screenshots"
+      ],
+      "preferred_assets": [
+        "icons"
+      ],
+      "notes": "Dutch 3-step onboarding visualization"
+    },
+    {
+      "template_number": 37,
+      "template_name": "hero-statement-promo-burst",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference. Match the exact brand design and colors precisely. Create: a promotional variant of a hero statement ad on a dark charcoal background. Top 12%: white banner with massive bold dark charcoal uppercase sans-serif headline: 'MEETINGS. GEDOOD.' with a period for punch. Upper-left of device area: an electric orange comic-style starburst badge rotated slightly, reading 'EERSTE MAAND GRATIS' in bold dark text. Center: a laptop displaying AppMakelaar's AI specialist dashboard prominently, hero-lit against the dark background. Interface clearly visible with active AI specialist profiles, real-time automation indicators, workflow dashboard metrics. Moody, slightly dramatic lighting. Bottom 20%: three evenly spaced icon-and-text benefit columns on a semi-transparent dark strip: (zap icon) INSTANT SETUP | (lock icon) SOC 2 GECERTIFICEERD | (users icon) ONBEPERKTE LEDEN. Icons in simple line-art circles with orange highlights. Very bottom: full-width electric orange banner with bold dark text: 'NEDERLANDSE KWALITEIT SPECIAL'. 1:1 aspect ratio.",
+      "aspect_ratio": "1:1",
+      "required_assets": [
+        "screenshots"
+      ],
+      "preferred_assets": [
+        "icons"
+      ],
+      "notes": "Dutch promotional variant with offer burst"
+    },
+    {
+      "template_number": 38,
+      "template_name": "demo-cta-see-in-action",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference. Match the exact brand design, colors, and typography style precisely. Create: a demo invitation ad. Background: a modern bright Amsterdam office with a professional in their 30s sitting at a desk, looking at a laptop screen with AppMakelaar dashboard visible. Shot at 35mm f/2.0, natural daylight, warm tones. Floating around the laptop in a semi-circle: 5 simplified, frosted-glass UI element cards showing key features — each a white rounded rectangle with subtle blur containing a feature icon and short label: '📊 Smart Dashboard', '🤖 AI Assistent', '🔗 Integraties', '👥 Team Spaces', '📱 Mobile App'. The floating elements should look like they're emerging from the screen in 3D perspective. Top: bold corporate blue headline reading 'Zie waarom 100 teams dit kwartaal overstapten'. Bottom center: a large orange rounded CTA button reading 'BEKIJK 2-MIN DEMO' with a play icon. AppMakelaar logo bottom right corner. Aspirational, clean, inviting. 1:1 aspect ratio.",
+      "aspect_ratio": "1:1",
+      "required_assets": [
+        "screenshots"
+      ],
+      "preferred_assets": [
+        "team",
+        "icons"
+      ],
+      "notes": "Dutch demo CTA with floating feature elements"
+    },
+    {
+      "template_number": 39,
+      "template_name": "curiosity-gap-scroll-stopper",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference for visual tone ONLY. Do NOT include any app screenshot, logo, or branding. Create: a scroll-stopping curiosity ad designed to look like a truncated social media post. Top 35%: clean white background with large bold black sans-serif text (heavy weight, tight leading): 'Meeste remote teams beseffen niet dat DIT de reden is waarom hun beste mensen blijven vertrekken maar wist u dat...' The last few words should be followed by '...meer' in lighter gray text, mimicking a truncated Facebook/Instagram caption that requires clicking 'meer' to expand. Bottom 65%: a close-up, slightly uncomfortable photo of an overwhelmed person staring at multiple screens showing different software interfaces, chaotic whiteboard covered in sticky notes in the background. Photo should feel real and editorial, not stock. Slightly shallow depth of field. No text on the photo. No app screenshot. No logo. No CTA. The entire purpose is to provoke curiosity and earn the click. 1:1 aspect ratio.",
+      "aspect_ratio": "1:1",
+      "required_assets": [],
+      "preferred_assets": [],
+      "notes": "Dutch curiosity gap scroll-stopper with problem visual"
+    },
+    {
+      "template_number": 40,
+      "template_name": "native-casual-post-it-ui",
+      "prompt": "Professional Dutch B2B software interface design featuring clean, metric-driven dashboards with rounded corners and subtle shadows. Bright, high-contrast lighting in modern office environment. Color palette of corporate blues and clean whites with orange accent CTAs. Typography should be clear, authoritative sans-serif fonts with generous white space. Include floating UI cards displaying specific business metrics like '60% cost reduction' and '24/7 availability'. Composition should convey Dutch directness and technical competence with laptop screens showing AI specialist profiles and workflow automation tools. Overall mood: confident, results-oriented, and pragmatically professional. Use the attached images as brand reference. Match the exact AppMakelaar AI specialist dashboard showing AI workforce profiles, corporate blue color scheme, and clean Dutch interface design precisely. Create: a lifestyle photo of a laptop displaying AppMakelaar's AI specialist dashboard set on a wooden desk in a modern Amsterdam home office with soft natural daylight from a nearby window and a naturally blurred background showing a bookshelf and coffee cup. Frame is slightly off-center — screen not perfectly centered, bottom edge slightly cropped — feels found rather than composed. Slight natural sensor grain consistent with a phone camera in indoor daylight. Subtle natural vignette at frame corners. Center of frame, large and dominant: the laptop screen clearly showing the AI specialist dashboard with active profiles, workflow automation metrics, and corporate blue interface elements. Stuck directly onto the laptop screen: a yellow square post-it note, slightly crooked and not perfectly straight. Realistic paper texture with a horizontal crease across the middle as if it was folded once. Subtle curl at bottom-right corner only. Held at the top by a small piece of clear tape, slightly wrinkled. Handwritten in thick black marker-style lettering, imperfect and uneven, lowercase natural writing: 'nooit meer terug' line break 'naar handmatig werk' line break 'dit ding is magisch' line break '🚀' No attribution line. No signature. Bottom center of frame, outside the photo on a plain white strip: small plain lowercase sans-serif caption text: 'appmakelaar.nl — ai-gedreven workflow automatisering' No logo overlay anywhere in the frame. Brand identity carried by the UI visible on screen. No border. Natural, authentic, discovered. 4:5 aspect ratio.",
+      "aspect_ratio": "4:5",
+      "required_assets": [
+        "screenshots"
+      ],
+      "preferred_assets": [],
+      "notes": "Dutch casual post-it note over AppMakelaar dashboard"
+    }
+  ],
+  "skipped": []
+}

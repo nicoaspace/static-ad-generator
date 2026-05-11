@@ -50,7 +50,9 @@ from config import (
 # ──────────────────────────────────────────────────────────────────────────────
 
 DEFAULT_MODEL = "claude-sonnet-4-20250514"
-MAX_TOKENS    = 64000   # prompts.json can be large (40 templates × ~500 words each)
+# Output cap: 40 templates JSON is usually well under this. Streaming avoids the SDK
+# non-streaming limit (~21k max_tokens) and long HTTP read timeouts on big requests.
+MAX_TOKENS = 32000
 
 # ──────────────────────────────────────────────────────────────────────────────
 # System prompts — exact replicas from SKILL.md
@@ -234,31 +236,31 @@ def run_prompt_generation(brand_name: str, brand_type: str, product_name: str,
                     available.append(f"  - {cat}/: {count} image(s)")
                 else:
                     empty.append(f"  - {cat}/: empty")
-        system_prompt = SYSTEM_PROMPT_SERVICE.format(
-            available_assets="\n".join(available) if available else "  (none populated)",
-            empty_assets="\n".join(empty) if empty else "  (all populated)",
-        )
+        # Do not use .format() — the prompt embeds a JSON example with many `{`/`}`.
+        av = "\n".join(available) if available else "  (none populated)"
+        em = "\n".join(empty) if empty else "  (all populated)"
+        system_prompt = SYSTEM_PROMPT_SERVICE.replace(
+            "{available_assets}", av
+        ).replace("{empty_assets}", em)
 
     user_message = _build_user_message(brand_name, brand_type, product_name,
                                         brand_dna, templates)
 
-    print(f"  Sending to Claude ({model})...")
+    print(f"  Sending to Claude ({model}, streaming)...")
     print(f"  Input size: ~{len(user_message):,} chars")
 
-    response = client.messages.create(
+    with client.messages.stream(
         model=model,
         max_tokens=MAX_TOKENS,
         system=system_prompt,
         messages=[{"role": "user", "content": user_message}],
-    )
+    ) as stream:
+        full_text = stream.get_final_text()
+        stop_reason = stream.get_final_message().stop_reason
 
-    # Extract text from response
-    full_text = ""
-    for block in response.content:
-        if hasattr(block, "text") and block.text:
-            full_text += block.text
-
-    print(f"  Response: {len(full_text):,} chars, stop_reason={response.stop_reason}")
+    print(f"  Response: {len(full_text):,} chars, stop_reason={stop_reason}")
+    if stop_reason == "max_tokens":
+        print("  ⚠ Output hit max_tokens — JSON may be truncated; raise MAX_TOKENS in phase2_prompt_gen.py if needed.")
 
     # Parse JSON
     result = _extract_json(full_text)
