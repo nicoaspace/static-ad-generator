@@ -30,9 +30,10 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 try:
-    import anthropic
+    from google import genai
+    from google.genai import types
 except ImportError:
-    print("Error: 'anthropic' package required.  pip install anthropic")
+    print("Error: 'google-genai' package required.  pip install google-genai")
     sys.exit(1)
 
 try:
@@ -44,7 +45,7 @@ except ImportError:
 from config import (
     PROJECT_ROOT,
     BRANDS_ROOT,
-    load_anthropic_key,
+    load_google_key,
     brand_path,
 )
 
@@ -52,7 +53,7 @@ from config import (
 # Config
 # ──────────────────────────────────────────────────────────────────────────────
 
-DEFAULT_MODEL = "claude-sonnet-4-20250514"
+DEFAULT_MODEL = "gemini-2.0-flash"
 MAX_TOKENS    = 16000
 WEB_SEARCH_MAX_USES = 25          # ~15-20 searches per Phase 1 run
 PAGE_TIMEOUT_MS     = 30_000      # Playwright page load timeout
@@ -386,23 +387,6 @@ async def scrape_brand_site(url: str) -> dict[str, str]:
 # Claude API — Brand Research with web_search tool
 # ──────────────────────────────────────────────────────────────────────────────
 
-def _assistant_content_for_pause_resume(content: list) -> list:
-    """
-    After stop_reason=pause_turn, Anthropic may end content with a web_search
-    server_tool_use before the matching web_search_tool_result arrives.
-    Resubmitting that tail causes 400 (invalid_request_error). Drop only
-    trailing unfinished web_search server_tool_use blocks.
-    """
-    blocks = list(content)
-    while blocks:
-        last = blocks[-1]
-        if getattr(last, "type", None) == "server_tool_use" and getattr(last, "name", None) == "web_search":
-            blocks.pop()
-            continue
-        break
-    return blocks if blocks else list(content)
-
-
 def _build_user_message(brand_name: str, url: str, product: str, brand_type: str,
                         scraped: dict[str, str]) -> str:
     """Build the user message with brand info and scraped content."""
@@ -432,70 +416,46 @@ def run_brand_research(brand_name: str, url: str, product: str, brand_type: str,
                        scraped: dict[str, str], api_key: str,
                        model: str = DEFAULT_MODEL) -> str:
     """
-    Call Claude API with web_search tool to conduct brand research.
-
-    Handles the server-side tool loop: Claude autonomously performs web searches,
-    and we continue on 'pause_turn' by resubmitting [user, assistant] per Anthropic
-    server-tools guidance (trimming any trailing unfinished web_search tool calls).
+    Call Gemini API with Google Search grounding to conduct brand research.
 
     Returns the final Brand DNA document text.
     """
-    client = anthropic.Anthropic(api_key=api_key)
+    client = genai.Client(api_key=api_key)
 
     system_prompt = SYSTEM_PROMPT_PRODUCT if brand_type == "product" else SYSTEM_PROMPT_SERVICE
     user_message = _build_user_message(brand_name, url, product, brand_type, scraped)
 
-    messages = [{"role": "user", "content": user_message}]
-    tools = [{
-        "type": "web_search_20250305",
-        "name": "web_search",
-        "max_uses": WEB_SEARCH_MAX_USES,
-    }]
+    print(f"  Sending to Gemini ({model})...")
+    print(f"  Input size: ~{len(user_message):,} chars")
 
-    all_text_parts = []
-    search_count = 0
-    turn = 0
+    grounding_tool = types.Tool(
+        google_search=types.GoogleSearch()
+    )
 
-    while True:
-        turn += 1
-        print(f"\n  Claude API call #{turn}...")
+    config = types.GenerateContentConfig(
+        system_instruction=system_prompt,
+        tools=[grounding_tool],
+        max_output_tokens=8192,
+    )
 
-        response = client.messages.create(
-            model=model,
-            max_tokens=MAX_TOKENS,
-            system=system_prompt,
-            messages=messages,
-            tools=tools,
-        )
+    response = client.models.generate_content(
+        model=model,
+        contents=user_message,
+        config=config,
+    )
 
-        # Collect text blocks from this response and count searches
-        for block in response.content:
-            if hasattr(block, "text") and block.text:
-                all_text_parts.append(block.text)
-            if block.type == "server_tool_use" and block.name == "web_search":
-                search_count += 1
-                query = block.input.get("query", "")
-                print(f"    🔍 Web search #{search_count}: {query}")
+    # Print grounding sources
+    grounding = response.candidates[0].grounding_metadata if response.candidates else None
+    if grounding and grounding.grounding_chunks:
+        print("\n  🔍 Google Search Grounding Sources:")
+        seen_urls = set()
+        for chunk in grounding.grounding_chunks:
+            if chunk.web and chunk.web.uri not in seen_urls:
+                seen_urls.add(chunk.web.uri)
+                print(f"    - {chunk.web.title}: {chunk.web.uri}")
 
-        print(f"  Stop reason: {response.stop_reason} | Searches so far: {search_count}")
-
-        if response.stop_reason == "end_turn":
-            break
-        elif response.stop_reason == "pause_turn":
-            # Continuation must match server-tools docs: [user, assistant(paused)] only — no extra
-            # user turn (that triggers 400: web_search tool_use without web_search_tool_result).
-            # Trim trailing web_search uses paused before results were attached.
-            safe_content = _assistant_content_for_pause_resume(response.content)
-            messages.append({"role": "assistant", "content": safe_content})
-        else:
-            # Unexpected stop reason — collect what we have and break
-            print(f"  ⚠ Unexpected stop reason: {response.stop_reason}")
-            break
-
-    # Combine all text blocks into the final document
-    full_text = "\n".join(all_text_parts)
-
-    print(f"\n  ✓ Research complete — {search_count} web searches, {turn} API turn(s)")
+    full_text = response.text or ""
+    print(f"\n  ✓ Research complete")
     print(f"  ✓ Document length: {len(full_text):,} characters")
 
     return full_text
@@ -521,9 +481,9 @@ def generate_brand_dna(brand_name: str, url: str, product: str,
     Returns:
         Path to the generated brand-dna.md file.
     """
-    api_key = load_anthropic_key()
+    api_key = load_google_key()
     if not api_key:
-        print("Error: ANTHROPIC_API_KEY not found.")
+        print("Error: GOOGLE_API_KEY not found.")
         print("  Set it as an environment variable or in env/.env.local")
         sys.exit(1)
 
@@ -560,8 +520,8 @@ def generate_brand_dna(brand_name: str, url: str, product: str,
     total_chars = sum(len(v) for v in scraped.values())
     print(f"  ✓ Scraped {len(scraped)} page(s), {total_chars:,} chars total ({elapsed:.1f}s)")
 
-    # Step 2: Run Claude research with web search
-    print("\n▸ Step 2: Running Claude brand research (with web search)...")
+    # Step 2: Run Gemini research with web search
+    print("\n▸ Step 2: Running Gemini brand research (with web search)...")
     start = time.time()
     brand_dna = run_brand_research(brand_name, url, product, brand_type, scraped,
                                     api_key, model)
@@ -601,7 +561,7 @@ Examples:
     parser.add_argument("--type", choices=["product", "service"], default="product",
                         help="Brand type: product (physical) or service (SaaS/digital)")
     parser.add_argument("--model", default=DEFAULT_MODEL,
-                        help=f"Claude model to use (default: {DEFAULT_MODEL})")
+                        help=f"Gemini model to use (default: {DEFAULT_MODEL})")
 
     args = parser.parse_args()
 

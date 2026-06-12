@@ -12,22 +12,22 @@ Usage:
     python skills/references/pipeline_research.py --brand lmnt --url https://drinklmnt.com/ --product "LMNT Recharge" --type product
 
 Environment:
-    ANTHROPIC_API_KEY  — Anthropic API key (for Phase 1 research)
-                         Or place it in env/.env.local as ANTHROPIC_API_KEY=your-key
+    GOOGLE_API_KEY     — Google API key (for Phase 1 research)
+                         Or place it in env/.env.local as GOOGLE_API_KEY=your-key
 """
 
 import argparse
 import sys
 import time
 
-from config import load_anthropic_key, brand_path
+from config import load_google_key, brand_path
 from phase0_setup import setup_brand
 from phase1_brand_dna import generate_brand_dna
 
 
 def run_research(brand_name: str, url: str, product: str,
                  brand_type: str = "product",
-                 model: str = "claude-sonnet-4-20250514") -> dict:
+                 model: str = "gemini-2.0-flash") -> dict:
     """
     Run Phase 0 (setup) + Phase 1 (research).
 
@@ -38,7 +38,7 @@ def run_research(brand_name: str, url: str, product: str,
         url: Brand's main website URL
         product: Specific product or service name
         brand_type: "product" or "service"
-        model: Claude model for Phase 1
+        model: Gemini model for Phase 1
 
     Returns:
         Dict with paths and timing for each phase.
@@ -54,8 +54,8 @@ def run_research(brand_name: str, url: str, product: str,
     print(f"{'#'*60}")
 
     # Validate API key
-    if not load_anthropic_key():
-        sys.exit("Error: ANTHROPIC_API_KEY not found. Set it as env var or in env/.env.local")
+    if not load_google_key():
+        sys.exit("Error: GOOGLE_API_KEY not found. Set it as env var or in env/.env.local")
 
     # Phase 0: Setup
     start = time.time()
@@ -113,8 +113,8 @@ Examples:
     parser.add_argument("--product", required=True, help="Specific product or service name")
     parser.add_argument("--type", choices=["product", "service"], default="product",
                         help="Brand type: product or service (default: product)")
-    parser.add_argument("--model", default="claude-sonnet-4-20250514",
-                        help="Claude model for Phase 1")
+    parser.add_argument("--model", default="gemini-2.0-flash",
+                        help="Gemini model for Phase 1")
 
     args = parser.parse_args()
 

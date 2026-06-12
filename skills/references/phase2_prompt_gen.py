@@ -30,16 +30,17 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 try:
-    import anthropic
+    from google import genai
+    from google.genai import types
 except ImportError:
-    print("Error: 'anthropic' package required.  pip install anthropic")
+    print("Error: 'google-genai' package required.  pip install google-genai")
     sys.exit(1)
 
 from config import (
     BRANDS_ROOT,
     PRODUCT_TEMPLATES,
     SERVICE_TEMPLATES,
-    load_anthropic_key,
+    load_google_key,
     brand_path,
     list_brands_with_dna,
     scan_brand_assets,
@@ -49,7 +50,7 @@ from config import (
 # Config
 # ──────────────────────────────────────────────────────────────────────────────
 
-DEFAULT_MODEL = "claude-sonnet-4-20250514"
+DEFAULT_MODEL = "gemini-2.0-flash"
 # Output cap: 40 templates JSON is usually well under this. Streaming avoids the SDK
 # non-streaming limit (~21k max_tokens) and long HTTP read timeouts on big requests.
 MAX_TOKENS = 32000
@@ -217,11 +218,11 @@ def run_prompt_generation(brand_name: str, brand_type: str, product_name: str,
                           asset_scan: dict[str, int] | None,
                           api_key: str, model: str = DEFAULT_MODEL) -> dict:
     """
-    Call Claude API to generate prompts.json from brand DNA + templates.
+    Call Gemini API to generate prompts.json from brand DNA + templates.
 
     Returns parsed JSON dict ready to save.
     """
-    client = anthropic.Anthropic(api_key=api_key)
+    client = genai.Client(api_key=api_key)
 
     # Build system prompt
     if brand_type == "product":
@@ -246,21 +247,23 @@ def run_prompt_generation(brand_name: str, brand_type: str, product_name: str,
     user_message = _build_user_message(brand_name, brand_type, product_name,
                                         brand_dna, templates)
 
-    print(f"  Sending to Claude ({model}, streaming)...")
+    print(f"  Sending to Gemini ({model})...")
     print(f"  Input size: ~{len(user_message):,} chars")
 
-    with client.messages.stream(
-        model=model,
-        max_tokens=MAX_TOKENS,
-        system=system_prompt,
-        messages=[{"role": "user", "content": user_message}],
-    ) as stream:
-        full_text = stream.get_final_text()
-        stop_reason = stream.get_final_message().stop_reason
+    config = types.GenerateContentConfig(
+        system_instruction=system_prompt,
+        response_mime_type="application/json",
+        max_output_tokens=8192,
+    )
 
-    print(f"  Response: {len(full_text):,} chars, stop_reason={stop_reason}")
-    if stop_reason == "max_tokens":
-        print("  ⚠ Output hit max_tokens — JSON may be truncated; raise MAX_TOKENS in phase2_prompt_gen.py if needed.")
+    response = client.models.generate_content(
+        model=model,
+        contents=user_message,
+        config=config,
+    )
+
+    full_text = response.text or ""
+    print(f"  Response: {len(full_text):,} chars")
 
     # Parse JSON
     result = _extract_json(full_text)
@@ -330,9 +333,9 @@ def generate_prompts(brand_name: str, brand_type: str = "product",
     Returns:
         Path to the generated prompts.json file.
     """
-    api_key = load_anthropic_key()
+    api_key = load_google_key()
     if not api_key:
-        print("Error: ANTHROPIC_API_KEY not found.")
+        print("Error: GOOGLE_API_KEY not found.")
         print("  Set it as an environment variable or in env/.env.local")
         sys.exit(1)
 
@@ -391,8 +394,8 @@ def generate_prompts(brand_name: str, brand_type: str = "product",
 
     print(f"{'='*60}")
 
-    # Generate prompts via Claude
-    print(f"\n▸ Generating prompts via Claude...")
+    # Generate prompts via Gemini
+    print(f"\n▸ Generating prompts via Gemini...")
     start = time.time()
     result = run_prompt_generation(
         brand_name=brand_name,
@@ -463,7 +466,7 @@ Examples:
     parser.add_argument("--product", default=None,
                         help="Override product name (default: inferred from brand-dna.md)")
     parser.add_argument("--model", default=DEFAULT_MODEL,
-                        help=f"Claude model to use (default: {DEFAULT_MODEL})")
+                        help=f"Gemini model to use (default: {DEFAULT_MODEL})")
 
     args = parser.parse_args()
 

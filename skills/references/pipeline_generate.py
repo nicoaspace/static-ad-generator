@@ -13,9 +13,8 @@ Usage:
     python skills/references/pipeline_generate.py --brand lmnt --type product --dry-run
 
 Environment:
-    ANTHROPIC_API_KEY  — for Phase 2 (Claude API)
-    GOOGLE_API_KEY     — for Phase 3 (Gemini API)
-    Or place both in env/.env.local
+    GOOGLE_API_KEY     — for Phase 2 (Gemini API) and Phase 3 (Image API)
+                         Or place it in env/.env.local
 """
 
 import argparse
@@ -25,7 +24,7 @@ import time
 
 from config import (
     PROJECT_ROOT, SCRIPT_DIR, BRANDS_ROOT,
-    load_anthropic_key, load_google_key, brand_path, scan_brand_assets,
+    load_google_key, brand_path, scan_brand_assets,
 )
 from phase2_prompt_gen import generate_prompts
 
@@ -93,7 +92,7 @@ def _check_images(brand_name: str, brand_type: str) -> bool:
 
 def run_generate(brand_name: str, brand_type: str = "product",
                  product_name: str | None = None,
-                 model: str = "claude-sonnet-4-20250514",
+                 model: str = "gemini-2.0-flash",
                  templates: str | None = None,
                  resolution: str = "1K", variations: int = 4,
                  dry_run: bool = False) -> dict:
@@ -104,7 +103,7 @@ def run_generate(brand_name: str, brand_type: str = "product",
         brand_name: Brand identifier (folder name under brands/)
         brand_type: "product" or "service"
         product_name: Override product name (default: from brand-dna.md)
-        model: Claude model for Phase 2
+        model: Gemini model for Phase 2
         templates: Comma-separated template numbers for Phase 3
         resolution: Image resolution for Phase 3
         variations: Images per template
@@ -130,9 +129,7 @@ def run_generate(brand_name: str, brand_type: str = "product",
     print(f"{'#'*60}")
 
     # Validate API keys
-    if not load_anthropic_key():
-        sys.exit("Error: ANTHROPIC_API_KEY not found. Set it as env var or in env/.env.local")
-    if not dry_run and not load_google_key():
+    if not load_google_key():
         sys.exit("Error: GOOGLE_API_KEY not found. Set it as env var or in env/.env.local")
 
     # Check images
@@ -187,8 +184,8 @@ Examples:
                         help="Brand type: product or service (default: product)")
     parser.add_argument("--product", default=None,
                         help="Override product name (default: from brand-dna.md)")
-    parser.add_argument("--model", default="claude-sonnet-4-20250514",
-                        help="Claude model for Phase 2")
+    parser.add_argument("--model", default="gemini-2.0-flash",
+                        help="Gemini model for Phase 2")
     parser.add_argument("--templates", metavar="1,7,13",
                         help="Comma-separated template numbers for Phase 3 (default: all)")
     parser.add_argument("--resolution", default="1K", choices=["512", "1K", "2K", "4K"],
