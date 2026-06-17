@@ -1,21 +1,84 @@
 import { NextRequest } from "next/server";
-import { spawn } from "child_process";
+import { spawn, type ChildProcess } from "child_process";
 import path from "path";
+import { auth } from "@/auth";
+import { LIMITS } from "@/lib/limits";
+import { estimateGenerateSeconds, estimateResearchSeconds } from "@/lib/pipeline-estimate";
+import {
+  acquirePipelineLock,
+  checkGenerateRun,
+  checkResearchRun,
+  enforceQuota,
+  recordGenerateRun,
+  recordResearchRun,
+  reclaimStalePipelineLock,
+  releasePipelineLock,
+} from "@/lib/quota";
 
 export const dynamic = "force-dynamic";
 
+const PROGRESS_PREFIX = "[PIPELINE_PROGRESS] ";
+
+function sseError(message: string, code?: string) {
+  return new Response(
+    `data: ${JSON.stringify({ type: "exit", success: false, code: 1, quotaConsumed: false, message, errorCode: code })}\n\n`,
+    {
+    headers: {
+      "Content-Type": "text/event-stream",
+      "Cache-Control": "no-cache",
+      Connection: "keep-alive",
+    },
+  });
+}
+
+function extractProgressEvents(text: string): Array<Record<string, unknown>> {
+  const events: Array<Record<string, unknown>> = [];
+  for (const line of text.split("\n")) {
+    const idx = line.indexOf(PROGRESS_PREFIX);
+    if (idx === -1) continue;
+    try {
+      events.push(JSON.parse(line.slice(idx + PROGRESS_PREFIX.length)) as Record<string, unknown>);
+    } catch {
+      /* ignore malformed progress lines */
+    }
+  }
+  return events;
+}
+
+function stripProgressLines(text: string): string {
+  return text
+    .split("\n")
+    .filter((line) => !line.includes(PROGRESS_PREFIX))
+    .join("\n");
+}
+
 export async function GET(req: NextRequest) {
+  const session = await auth();
+  const email = session?.user?.email;
+  if (!email) {
+    return new Response(JSON.stringify({ error: "Unauthorized", code: "UNAUTHORIZED" }), {
+      status: 401,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
   const { searchParams } = new URL(req.url);
-  const action = searchParams.get("action"); // "research" | "generate"
+  const action = searchParams.get("action");
   const brand = searchParams.get("brand");
   const url = searchParams.get("url");
   const product = searchParams.get("product");
-  const type = searchParams.get("type") || "product"; // "product" | "service"
-  
-  // Generation specific parameters
-  const templates = searchParams.get("templates"); // e.g. "1,7,13"
-  const resolution = searchParams.get("resolution") || "1K";
-  const variations = searchParams.get("variations") || "4";
+  const type = searchParams.get("type") || "product";
+
+  const templates = searchParams.get("templates");
+  const resolution = searchParams.get("resolution") || "512";
+  const isPublicVersion = process.env.PUBLIC_VERSION === "true";
+  const allowedResolutions = isPublicVersion ? ["512", "1K"] : ["512", "1K", "2K", "4K"];
+  const safeResolution = allowedResolutions.includes(resolution) ? resolution : "512";
+  const rawVariations = parseInt(searchParams.get("variations") || "2", 10);
+  const variations = Math.min(
+    Number.isFinite(rawVariations) ? rawVariations : 2,
+    LIMITS.MAX_VARIATIONS_PER_TEMPLATE
+  );
   const dryRun = searchParams.get("dryRun") === "true";
 
   if (!action || !brand) {
@@ -25,82 +88,198 @@ export async function GET(req: NextRequest) {
     });
   }
 
+  reclaimStalePipelineLock();
+
+  const templateList = templates
+    ? templates.split(",").map((t) => t.trim()).filter(Boolean)
+    : [];
+
+  if (action === "research") {
+    const check = enforceQuota(checkResearchRun(email, brand));
+    if (check) {
+      const body = await check.json();
+      return sseError(body.error || "Quota exceeded", body.code);
+    }
+  } else if (action === "generate") {
+    const check = enforceQuota(
+      checkGenerateRun(email, brand, templateList.length, variations, safeResolution)
+    );
+    if (check) {
+      const body = await check.json();
+      return sseError(body.error || "Quota exceeded", body.code);
+    }
+  } else {
+    return new Response(JSON.stringify({ error: "Invalid action type" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
   const encoder = new TextEncoder();
+  const estimatedSeconds =
+    action === "research"
+      ? estimateResearchSeconds()
+      : estimateGenerateSeconds(templateList.length, variations, safeResolution, isPublicVersion);
 
   const stream = new ReadableStream({
     start(controller) {
+      let closed = false;
+      let finished = false;
+      let child: ChildProcess | null = null;
+
+      const safeEnqueue = (payload: Record<string, unknown>) => {
+        if (closed) return;
+        try {
+          controller.enqueue(encoder.encode(`data: ${JSON.stringify(payload)}\n\n`));
+        } catch {
+          closed = true;
+        }
+      };
+
+      const closeStream = () => {
+        if (closed) return;
+        closed = true;
+        try {
+          controller.close();
+        } catch {
+          /* already closed */
+        }
+      };
+
+      const detachChild = () => {
+        if (!child) return;
+        child.stdout?.removeAllListeners("data");
+        child.stderr?.removeAllListeners("data");
+        child.removeAllListeners("close");
+        child.removeAllListeners("error");
+      };
+
+      const handleProcessOutput = (text: string, streamType: "stdout" | "stderr") => {
+        for (const progress of extractProgressEvents(text)) {
+          safeEnqueue({ type: "progress", ...progress });
+        }
+        const clean = stripProgressLines(text);
+        if (clean) {
+          safeEnqueue({ type: streamType, text: clean });
+        }
+      };
+
+      const finish = (code: number | null, errorMessage?: string) => {
+        if (finished) return;
+        finished = true;
+        detachChild();
+        releasePipelineLock();
+
+        if (closed) return;
+
+        const success = code === 0;
+        if (success) {
+          if (action === "research") {
+            recordResearchRun(email);
+          } else {
+            recordGenerateRun(email);
+          }
+        }
+
+        safeEnqueue({
+          type: "exit",
+          code,
+          success,
+          quotaConsumed: success,
+          message: success
+            ? undefined
+            : errorMessage ||
+              (code === null
+                ? "The pipeline was interrupted before it could finish."
+                : "We encountered an error and couldn't finish generating your ads. Please try again in a few minutes."),
+        });
+        closeStream();
+      };
+
       let scriptPath = "";
       let args: string[] = [];
 
       if (action === "research") {
         scriptPath = path.join("skills", "references", "pipeline_research.py");
         if (!url || !product) {
-          controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: "error", text: "Research requires 'url' and 'product' parameters" })}\n\n`));
-          controller.close();
+          safeEnqueue({
+            type: "error",
+            text: "Research requires 'url' and 'product' parameters",
+            quotaConsumed: false,
+          });
+          safeEnqueue({ type: "exit", code: 1, success: false, quotaConsumed: false });
+          closeStream();
           return;
         }
-        args = [
-          scriptPath,
-          "--brand", brand,
-          "--url", url,
-          "--product", product,
-          "--type", type
-        ];
-      } else if (action === "generate") {
+        args = [scriptPath, "--brand", brand, "--url", url, "--product", product, "--type", type];
+      } else {
         scriptPath = path.join("skills", "references", "pipeline_generate.py");
         args = [
           scriptPath,
-          "--brand", brand,
-          "--type", type,
-          "--resolution", resolution,
-          "--variations", variations
+          "--brand",
+          brand,
+          "--type",
+          type,
+          "--resolution",
+          safeResolution,
+          "--variations",
+          String(variations),
         ];
-        if (product) {
-          args.push("--product", product);
-        }
-        if (templates) {
-          args.push("--templates", templates);
-        }
-        if (dryRun) {
-          args.push("--dry-run");
-        }
-      } else {
-        controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: "error", text: "Invalid action type" })}\n\n`));
-        controller.close();
-        return;
+        if (product) args.push("--product", product);
+        if (templates) args.push("--templates", templates);
+        if (dryRun) args.push("--dry-run");
       }
 
-      // Enqueue start message
-      controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: "status", text: `Spawning: python ${args.join(" ")}` })}\n\n`));
+      safeEnqueue({
+        type: "status",
+        text: `Spawning: python -u ${args.join(" ")}`,
+      });
 
-      // Spawn process
-      // On Windows, sometimes 'python' is mapped, sometimes we need to use 'py' or absolute path.
-      // We will try running 'python' and fallback to standard execution.
-      const child = spawn("python", args, {
+      safeEnqueue({
+        type: "progress",
+        percent: 0,
+        message: action === "research" ? "Starting brand research…" : "Starting ad generation…",
+        estimatedSeconds,
+        ...(isPublicVersion && action === "generate"
+          ? { secondsPerImage: LIMITS.PUBLIC_SECONDS_PER_IMAGE }
+          : {}),
+        phase: "init",
+      });
+
+      child = spawn("python", ["-u", ...args], {
         cwd: process.cwd(),
-        env: { ...process.env },
-        shell: true, // Use shell to correctly handle python executable in conda paths on Windows
+        env: {
+          ...process.env,
+          PYTHONUTF8: "1",
+          PYTHONIOENCODING: "utf-8",
+          PYTHONUNBUFFERED: "1",
+        },
+        shell: true,
       });
 
-      child.stdout.on("data", (data) => {
-        const text = data.toString();
-        controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: "stdout", text })}\n\n`));
+      acquirePipelineLock(email, brand, action, child.pid ?? 0);
+
+      child.stdout?.on("data", (data) => {
+        handleProcessOutput(data.toString(), "stdout");
       });
 
-      child.stderr.on("data", (data) => {
-        const text = data.toString();
-        // Stderr sometimes contains warning or standard progress. Keep it distinct.
-        controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: "stderr", text })}\n\n`));
+      child.stderr?.on("data", (data) => {
+        handleProcessOutput(data.toString(), "stderr");
       });
 
       child.on("close", (code) => {
-        controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: "exit", code })}\n\n`));
-        controller.close();
+        finish(code);
       });
 
       child.on("error", (err) => {
-        controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: "error", text: err.message })}\n\n`));
-        controller.close();
+        finish(null, err.message);
+      });
+
+      req.signal.addEventListener("abort", () => {
+        if (child && !child.killed) {
+          child.kill();
+        }
+        finish(null, "Connection closed.");
       });
     },
   });
@@ -109,7 +288,7 @@ export async function GET(req: NextRequest) {
     headers: {
       "Content-Type": "text/event-stream",
       "Cache-Control": "no-cache",
-      "Connection": "keep-alive",
+      Connection: "keep-alive",
     },
   });
 }

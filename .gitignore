@@ -51,6 +51,9 @@ __pycache__/
 # Generated outputs (images - large binaries, don't commit)
 brands/*/outputs/
 
+# Runtime quota / usage tracking
+/data/
+
 # Documents & archives
 *.docx
 *.doc

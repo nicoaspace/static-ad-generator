@@ -12,6 +12,18 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     signIn: "/login",
   },
   callbacks: {
+    jwt({ token, user }) {
+      if (user?.image) {
+        token.picture = user.image;
+      }
+      return token;
+    },
+    session({ session, token }) {
+      if (token.picture && session.user) {
+        session.user.image = token.picture as string;
+      }
+      return session;
+    },
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
       const isOnLogin = nextUrl.pathname === "/login";
