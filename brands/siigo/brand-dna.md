@@ -1,6 +1,6 @@
-BRAND DNA DOCUMENT
+# BRAND DNA DOCUMENT
 ==================
-BRAND TYPE: service
+## BRAND TYPE: service
 
 ---
 
