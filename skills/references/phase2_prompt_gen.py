@@ -17,8 +17,9 @@ Usage:
     python skills/references/phase2_prompt_gen.py --brand siigo --type service --product "Siigo Nómina Electrónica"
 
 Environment:
-    ANTHROPIC_API_KEY  — Anthropic API key
-                         Or place it in env/.env.local as ANTHROPIC_API_KEY=your-key
+    GOOGLE_API_KEY       — Gemini API key (when PUBLIC_VERSION=false)
+    OPENROUTER_API_KEY   — OpenRouter API key (when PUBLIC_VERSION=true)
+    PUBLIC_VERSION       — "true" uses OpenRouter; "false" uses Gemini
 """
 
 import argparse
@@ -29,28 +30,25 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-try:
-    from google import genai
-    from google.genai import types
-except ImportError:
-    print("Error: 'google-genai' package required.  pip install google-genai")
-    sys.exit(1)
-
 from config import (
     BRANDS_ROOT,
     PRODUCT_TEMPLATES,
     SERVICE_TEMPLATES,
-    load_google_key,
     brand_path,
+    emit_progress,
+    get_llm_default_model,
+    is_public_version,
     list_brands_with_dna,
+    missing_llm_api_key,
     scan_brand_assets,
 )
+from llm_provider import generate_text
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Config
 # ──────────────────────────────────────────────────────────────────────────────
 
-DEFAULT_MODEL = "gemini-2.0-flash"
+DEFAULT_MODEL = get_llm_default_model()
 # Output cap: 40 templates JSON is usually well under this. Streaming avoids the SDK
 # non-streaming limit (~21k max_tokens) and long HTTP read timeouts on big requests.
 MAX_TOKENS = 32000
@@ -152,6 +150,15 @@ Output ONLY valid JSON with this exact structure (no markdown fences, no comment
 CRITICAL: Output ONLY the JSON object. No markdown code fences. No explanation before or after."""
 
 
+TEXT_ONLY_IMAGE_ADDENDUM = """\
+
+TEXT-ONLY IMAGE MODE: Reference images cannot be attached during generation.
+For templates that would normally use product or UI reference images:
+- Do NOT say "use the attached images" or refer to attachments.
+- Instead, describe packaging, colors, typography, layout, and UI details explicitly in the prompt text.
+- Pull every visual detail from the Brand DNA (hex colors, font names, product shape, label copy, etc.)."""
+
+
 # ──────────────────────────────────────────────────────────────────────────────
 # Claude API — Prompt Generation
 # ──────────────────────────────────────────────────────────────────────────────
@@ -218,12 +225,10 @@ def run_prompt_generation(brand_name: str, brand_type: str, product_name: str,
                           asset_scan: dict[str, int] | None,
                           api_key: str, model: str = DEFAULT_MODEL) -> dict:
     """
-    Call Gemini API to generate prompts.json from brand DNA + templates.
+    Call the active LLM provider to generate prompts.json from brand DNA + templates.
 
     Returns parsed JSON dict ready to save.
     """
-    client = genai.Client(api_key=api_key)
-
     # Build system prompt
     if brand_type == "product":
         system_prompt = SYSTEM_PROMPT_PRODUCT
@@ -244,25 +249,23 @@ def run_prompt_generation(brand_name: str, brand_type: str, product_name: str,
             "{available_assets}", av
         ).replace("{empty_assets}", em)
 
+    if is_public_version():
+        system_prompt += TEXT_ONLY_IMAGE_ADDENDUM
+
     user_message = _build_user_message(brand_name, brand_type, product_name,
                                         brand_dna, templates)
 
-    print(f"  Sending to Gemini ({model})...")
+    provider = "OpenRouter" if is_public_version() else "Gemini"
+    print(f"  Sending to {provider} ({model})...")
     print(f"  Input size: ~{len(user_message):,} chars")
 
-    config = types.GenerateContentConfig(
-        system_instruction=system_prompt,
-        response_mime_type="application/json",
-        max_output_tokens=8192,
-    )
-
-    response = client.models.generate_content(
+    full_text = generate_text(
+        system_prompt,
+        user_message,
         model=model,
-        contents=user_message,
-        config=config,
+        json_mode=True,
+        max_tokens=MAX_TOKENS,
     )
-
-    full_text = response.text or ""
     print(f"  Response: {len(full_text):,} chars")
 
     # Parse JSON
@@ -333,9 +336,9 @@ def generate_prompts(brand_name: str, brand_type: str = "product",
     Returns:
         Path to the generated prompts.json file.
     """
-    api_key = load_google_key()
-    if not api_key:
-        print("Error: GOOGLE_API_KEY not found.")
+    missing = missing_llm_api_key()
+    if missing:
+        print(f"Error: {missing} not found.")
         print("  Set it as an environment variable or in env/.env.local")
         sys.exit(1)
 
@@ -394,8 +397,10 @@ def generate_prompts(brand_name: str, brand_type: str = "product",
 
     print(f"{'='*60}")
 
-    # Generate prompts via Gemini
-    print(f"\n▸ Generating prompts via Gemini...")
+    # Generate prompts via active LLM provider
+    label = "OpenRouter" if is_public_version() else "Gemini"
+    print(f"\n▸ Generating prompts via {label}...")
+    emit_progress(15, f"Calling {label} to write template prompts…", phase="phase2")
     start = time.time()
     result = run_prompt_generation(
         brand_name=brand_name,
@@ -404,11 +409,12 @@ def generate_prompts(brand_name: str, brand_type: str = "product",
         brand_dna=brand_dna,
         templates=templates,
         asset_scan=asset_scan,
-        api_key=api_key,
+        api_key="",
         model=model,
     )
     elapsed = time.time() - start
     print(f"  ✓ Generation completed ({elapsed:.1f}s)")
+    emit_progress(26, "Parsing and saving prompts…", phase="phase2")
 
     # Post-process service brands (filter by available assets)
     if brand_type == "service" and asset_scan:
@@ -465,8 +471,8 @@ Examples:
                         help="Brand type: product (physical) or service (SaaS/digital)")
     parser.add_argument("--product", default=None,
                         help="Override product name (default: inferred from brand-dna.md)")
-    parser.add_argument("--model", default=DEFAULT_MODEL,
-                        help=f"Gemini model to use (default: {DEFAULT_MODEL})")
+    parser.add_argument("--model", default=None,
+                        help=f"LLM model to use (default: {DEFAULT_MODEL})")
 
     args = parser.parse_args()
 
@@ -474,7 +480,7 @@ Examples:
         brand_name=args.brand,
         brand_type=args.type,
         product_name=args.product,
-        model=args.model,
+        model=args.model or DEFAULT_MODEL,
     )
 
 

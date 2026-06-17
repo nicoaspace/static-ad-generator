@@ -13,8 +13,9 @@ Usage:
     python skills/references/pipeline_generate.py --brand lmnt --type product --dry-run
 
 Environment:
-    GOOGLE_API_KEY     — for Phase 2 (Gemini API) and Phase 3 (Image API)
-                         Or place it in env/.env.local
+    PUBLIC_VERSION=true  → OPENROUTER_API_KEY (LLM + images via Grok Imagine)
+    PUBLIC_VERSION=false → GOOGLE_API_KEY (LLM + images)
+                         Or place keys in env/.env.local
 """
 
 import argparse
@@ -24,19 +25,20 @@ import time
 
 from config import (
     PROJECT_ROOT, SCRIPT_DIR, BRANDS_ROOT,
-    load_google_key, brand_path, scan_brand_assets,
+    brand_path, emit_progress, get_default_resolution, get_llm_default_model,
+    get_resolution_choices, missing_llm_api_key, scan_brand_assets,
 )
 from phase2_prompt_gen import generate_prompts
 
 
 def run_phase3(brand_name: str, brand_type: str, templates: str | None = None,
-               resolution: str = "1K", variations: int = 4,
+               resolution: str = "512", variations: int = 2,
                dry_run: bool = False) -> int:
     """Run Phase 3 (generate_ads.py) as a subprocess. Returns exit code."""
     script = SCRIPT_DIR / "generate_ads.py"
 
     cmd = [
-        sys.executable, str(script),
+        sys.executable, "-u", str(script),
         "--brand", brand_name,
         "--type", brand_type,
         "--resolution", resolution,
@@ -53,8 +55,10 @@ def run_phase3(brand_name: str, brand_type: str, templates: str | None = None,
     print(f"  Command: {' '.join(cmd)}")
     print(f"{'='*60}\n")
 
-    result = subprocess.run(cmd, cwd=str(PROJECT_ROOT))
-    return result.returncode
+    emit_progress(32, "Starting image generation…", phase="phase3")
+
+    proc = subprocess.Popen(cmd, cwd=str(PROJECT_ROOT))
+    return proc.wait()
 
 
 def _check_images(brand_name: str, brand_type: str) -> bool:
@@ -92,9 +96,9 @@ def _check_images(brand_name: str, brand_type: str) -> bool:
 
 def run_generate(brand_name: str, brand_type: str = "product",
                  product_name: str | None = None,
-                 model: str = "gemini-2.0-flash",
+                 model: str | None = None,
                  templates: str | None = None,
-                 resolution: str = "1K", variations: int = 4,
+                 resolution: str = "512", variations: int = 2,
                  dry_run: bool = False) -> dict:
     """
     Run Phase 2 (prompts) + Phase 3 (images).
@@ -103,7 +107,7 @@ def run_generate(brand_name: str, brand_type: str = "product",
         brand_name: Brand identifier (folder name under brands/)
         brand_type: "product" or "service"
         product_name: Override product name (default: from brand-dna.md)
-        model: Gemini model for Phase 2
+        model: LLM model for Phase 2 (default: provider-specific)
         templates: Comma-separated template numbers for Phase 3
         resolution: Image resolution for Phase 3
         variations: Images per template
@@ -128,17 +132,33 @@ def run_generate(brand_name: str, brand_type: str = "product",
     print(f"#  Brand: {brand_name} ({brand_type})")
     print(f"{'#'*60}")
 
+    emit_progress(2, "Validating brand and API keys…", phase="init")
+
+    resolved_model = model or get_llm_default_model()
+
     # Validate API keys
-    if not load_google_key():
-        sys.exit("Error: GOOGLE_API_KEY not found. Set it as env var or in env/.env.local")
+    missing = missing_llm_api_key()
+    if missing:
+        sys.exit(f"Error: {missing} not found. Set it as env var or in env/.env.local")
 
     # Check images
     _check_images(brand_name, brand_type)
 
-    # Phase 2: Prompt Generation
+    prompts_file = brand_path(brand_name) / "prompts.json"
+
+    # Phase 2: Prompt Generation (skip when prompts.json already exists)
     start = time.time()
-    prompts_path = generate_prompts(brand_name, brand_type, product_name, model)
-    results["phase2"] = {"path": prompts_path, "time": time.time() - start}
+    if prompts_file.exists():
+        print(f"\n  ✓ Found existing prompts.json — skipping Phase 2")
+        emit_progress(30, "Using saved prompts — starting image generation…", phase="phase2")
+        prompts_path = str(prompts_file)
+        results["phase2"] = {"path": prompts_path, "time": 0, "skipped": True}
+    else:
+        emit_progress(8, "Checking uploaded assets…", phase="phase2")
+        emit_progress(12, "Generating prompts with AI (this may take a minute)…", phase="phase2")
+        prompts_path = generate_prompts(brand_name, brand_type, product_name, resolved_model)
+        results["phase2"] = {"path": prompts_path, "time": time.time() - start}
+        emit_progress(30, "Prompts ready — starting image generation…", phase="phase2")
 
     # Phase 3: Image Generation
     start = time.time()
@@ -149,6 +169,12 @@ def run_generate(brand_name: str, brand_type: str = "product",
         "time": time.time() - start,
         "dry_run": dry_run,
     }
+
+    if exit_code != 0:
+        emit_progress(100, "Image generation failed.", phase="error")
+        sys.exit(exit_code)
+
+    emit_progress(100, "Generation complete!", phase="done")
 
     # Summary
     total_time = time.time() - start_total
@@ -184,14 +210,15 @@ Examples:
                         help="Brand type: product or service (default: product)")
     parser.add_argument("--product", default=None,
                         help="Override product name (default: from brand-dna.md)")
-    parser.add_argument("--model", default="gemini-2.0-flash",
-                        help="Gemini model for Phase 2")
+    parser.add_argument("--model", default=None,
+                        help=f"LLM model for Phase 2 (default: {get_llm_default_model()})")
     parser.add_argument("--templates", metavar="1,7,13",
                         help="Comma-separated template numbers for Phase 3 (default: all)")
-    parser.add_argument("--resolution", default="1K", choices=["512", "1K", "2K", "4K"],
-                        help="Image resolution for Phase 3 (default: 1K)")
-    parser.add_argument("--variations", type=int, default=4,
-                        help="Images per template for Phase 3 (default: 4)")
+    parser.add_argument("--resolution", default=get_default_resolution(),
+                        choices=list(get_resolution_choices()),
+                        help=f"Image resolution for Phase 3 (default: {get_default_resolution()})")
+    parser.add_argument("--variations", type=int, default=2,
+                        help="Images per template for Phase 3 (default: 2)")
     parser.add_argument("--dry-run", action="store_true",
                         help="Phase 3 dry-run mode (no API calls for images)")
 
@@ -201,7 +228,7 @@ Examples:
         brand_name=args.brand,
         brand_type=args.type,
         product_name=args.product,
-        model=args.model,
+        model=args.model or get_llm_default_model(),
         templates=args.templates,
         resolution=args.resolution,
         variations=args.variations,

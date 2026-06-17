@@ -17,8 +17,9 @@ Usage:
     python skills/references/phase1_brand_dna.py --brand siigo --url https://siigo.com/ --product "Siigo Facturación Electrónica" --type service
 
 Environment:
-    ANTHROPIC_API_KEY  — Anthropic API key
-                         Or place it in env/.env.local as ANTHROPIC_API_KEY=your-key
+    GOOGLE_API_KEY       — Gemini API key (when PUBLIC_VERSION=false)
+    OPENROUTER_API_KEY   — OpenRouter API key (when PUBLIC_VERSION=true)
+    PUBLIC_VERSION       — "true" uses OpenRouter; "false" uses Gemini
 """
 
 import argparse
@@ -30,13 +31,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 try:
-    from google import genai
-    from google.genai import types
-except ImportError:
-    print("Error: 'google-genai' package required.  pip install google-genai")
-    sys.exit(1)
-
-try:
     from playwright.async_api import async_playwright
 except ImportError:
     print("Error: 'playwright' package required.  pip install playwright && playwright install chromium")
@@ -45,15 +39,18 @@ except ImportError:
 from config import (
     PROJECT_ROOT,
     BRANDS_ROOT,
-    load_google_key,
     brand_path,
+    get_llm_default_model,
+    is_public_version,
+    missing_llm_api_key,
 )
+from llm_provider import generate_text
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Config
 # ──────────────────────────────────────────────────────────────────────────────
 
-DEFAULT_MODEL = "gemini-2.0-flash"
+DEFAULT_MODEL = get_llm_default_model()
 MAX_TOKENS    = 16000
 WEB_SEARCH_MAX_USES = 25          # ~15-20 searches per Phase 1 run
 PAGE_TIMEOUT_MS     = 30_000      # Playwright page load timeout
@@ -416,45 +413,25 @@ def run_brand_research(brand_name: str, url: str, product: str, brand_type: str,
                        scraped: dict[str, str], api_key: str,
                        model: str = DEFAULT_MODEL) -> str:
     """
-    Call Gemini API with Google Search grounding to conduct brand research.
+    Call the active LLM provider to conduct brand research.
 
     Returns the final Brand DNA document text.
     """
-    client = genai.Client(api_key=api_key)
-
     system_prompt = SYSTEM_PROMPT_PRODUCT if brand_type == "product" else SYSTEM_PROMPT_SERVICE
     user_message = _build_user_message(brand_name, url, product, brand_type, scraped)
 
-    print(f"  Sending to Gemini ({model})...")
+    provider = "OpenRouter" if is_public_version() else "Gemini"
+    print(f"  Sending to {provider} ({model})...")
     print(f"  Input size: ~{len(user_message):,} chars")
 
-    grounding_tool = types.Tool(
-        google_search=types.GoogleSearch()
-    )
-
-    config = types.GenerateContentConfig(
-        system_instruction=system_prompt,
-        tools=[grounding_tool],
-        max_output_tokens=8192,
-    )
-
-    response = client.models.generate_content(
+    full_text = generate_text(
+        system_prompt,
+        user_message,
         model=model,
-        contents=user_message,
-        config=config,
+        max_tokens=8192,
+        use_web_search=not is_public_version(),
     )
 
-    # Print grounding sources
-    grounding = response.candidates[0].grounding_metadata if response.candidates else None
-    if grounding and grounding.grounding_chunks:
-        print("\n  🔍 Google Search Grounding Sources:")
-        seen_urls = set()
-        for chunk in grounding.grounding_chunks:
-            if chunk.web and chunk.web.uri not in seen_urls:
-                seen_urls.add(chunk.web.uri)
-                print(f"    - {chunk.web.title}: {chunk.web.uri}")
-
-    full_text = response.text or ""
     print(f"\n  ✓ Research complete")
     print(f"  ✓ Document length: {len(full_text):,} characters")
 
@@ -481,9 +458,9 @@ def generate_brand_dna(brand_name: str, url: str, product: str,
     Returns:
         Path to the generated brand-dna.md file.
     """
-    api_key = load_google_key()
-    if not api_key:
-        print("Error: GOOGLE_API_KEY not found.")
+    missing = missing_llm_api_key()
+    if missing:
+        print(f"Error: {missing} not found.")
         print("  Set it as an environment variable or in env/.env.local")
         sys.exit(1)
 
@@ -520,11 +497,12 @@ def generate_brand_dna(brand_name: str, url: str, product: str,
     total_chars = sum(len(v) for v in scraped.values())
     print(f"  ✓ Scraped {len(scraped)} page(s), {total_chars:,} chars total ({elapsed:.1f}s)")
 
-    # Step 2: Run Gemini research with web search
-    print("\n▸ Step 2: Running Gemini brand research (with web search)...")
+    # Step 2: Run LLM brand research
+    label = "OpenRouter" if is_public_version() else "Gemini"
+    print(f"\n▸ Step 2: Running {label} brand research...")
     start = time.time()
     brand_dna = run_brand_research(brand_name, url, product, brand_type, scraped,
-                                    api_key, model)
+                                    "", model)
     elapsed = time.time() - start
     print(f"  ✓ Research completed ({elapsed:.1f}s)")
 
@@ -560,8 +538,8 @@ Examples:
     parser.add_argument("--product", required=True, help="Specific product or service name")
     parser.add_argument("--type", choices=["product", "service"], default="product",
                         help="Brand type: product (physical) or service (SaaS/digital)")
-    parser.add_argument("--model", default=DEFAULT_MODEL,
-                        help=f"Gemini model to use (default: {DEFAULT_MODEL})")
+    parser.add_argument("--model", default=None,
+                        help=f"LLM model to use (default: {DEFAULT_MODEL})")
 
     args = parser.parse_args()
 
@@ -570,7 +548,7 @@ Examples:
         url=args.url,
         product=args.product,
         brand_type=args.type,
-        model=args.model,
+        model=args.model or DEFAULT_MODEL,
     )
 
 

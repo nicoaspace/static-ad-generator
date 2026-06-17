@@ -31,30 +31,26 @@ Folder layout expected:
     └── outputs/              ← generated images saved here (auto-created)
 
 Environment:
-    GOOGLE_API_KEY  — Google AI Studio key (https://aistudio.google.com/apikey)
-                      Or place it in env/.env.local as GOOGLE_API_KEY=your-key
+    GOOGLE_API_KEY       — Google AI Studio key (when PUBLIC_VERSION=false)
+    OPENROUTER_API_KEY   — OpenRouter API key (when PUBLIC_VERSION=true)
+    PUBLIC_VERSION       — "true" uses OpenRouter (Nemotron + Grok Imagine); "false" uses Gemini
 """
 
 import argparse
 import json
-import os
 import sys
 import time
 from datetime import datetime
 from pathlib import Path
 
 try:
-    from google import genai
-    from google.genai import types
-except ImportError:
-    print("Error: 'google-genai' package required.  pip install google-genai")
-    sys.exit(1)
-
-try:
     from PIL import Image
 except ImportError:
     print("Error: 'Pillow' package required.  pip install Pillow")
     sys.exit(1)
+
+from config import ENV_FILE, emit_progress, get_image_model_name, get_public_image_latency_seconds, get_rate_limit_pause, get_resolution_choices, is_public_version, missing_image_api_key
+from image_provider import MAX_REF_IMAGES, generate_image
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Paths — project root is three levels above this file
@@ -70,11 +66,10 @@ ENV_FILE     = PROJECT_ROOT / "env" / ".env.local"
 # Config
 # ──────────────────────────────────────────────────────────────────────────────
 
-MODEL              = "gemini-3.1-flash-image-preview"
-DEFAULT_RESOLUTION = "1K"    # 512 | 1K | 2K | 4K
-DEFAULT_VARIATIONS = 4       # images per template
-MAX_REF_IMAGES     = 10      # Gemini hard limit for reference images per call
-RATE_LIMIT_PAUSE   = 1       # seconds between variations (free-tier safety)
+MODEL              = get_image_model_name()
+DEFAULT_RESOLUTION = "512"   # provider-specific choices via get_resolution_choices()
+DEFAULT_VARIATIONS = 2       # images per template
+RATE_LIMIT_PAUSE   = get_rate_limit_pause()
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Template name maps — kept in sync with template-prompts.md / service-template-prompts.md
@@ -218,21 +213,6 @@ SERVICE_TEMPLATE_ASSETS: dict[int, dict[str, list[str]]] = {
 # ──────────────────────────────────────────────────────────────────────────────
 # Helpers
 # ──────────────────────────────────────────────────────────────────────────────
-
-def load_api_key() -> str:
-    """Read GOOGLE_API_KEY from environment or env/.env.local."""
-    key = os.environ.get("GOOGLE_API_KEY", "").strip()
-    if key:
-        return key
-    if ENV_FILE.exists():
-        for line in ENV_FILE.read_text(encoding="utf-8").splitlines():
-            line = line.strip()
-            if line.startswith("GOOGLE_API_KEY="):
-                key = line.split("=", 1)[1].strip().strip('"').strip("'")
-                if key:
-                    return key
-    return ""
-
 
 def list_brands() -> list[str]:
     """Return brand names that have a prompts.json ready."""
@@ -385,35 +365,21 @@ def print_recommend_report(
 
 
 def call_api(
-    client: genai.Client,
     prompt: str,
     aspect_ratio: str,
     resolution: str,
     ref_images: list[tuple[str, Image.Image]],
+    *,
+    seed: int | None = None,
 ) -> bytes | None:
-    """
-    Send prompt (+ optional reference images) to Nano Banana 2.
-    Returns raw PNG bytes or None on failure.
-    """
-    pil_images = [img for _, img in ref_images[:MAX_REF_IMAGES]]
-    contents   = [prompt] + pil_images
-
-    response = client.models.generate_content(
-        model=MODEL,
-        contents=contents,
-        config=types.GenerateContentConfig(
-            response_modalities=["TEXT", "IMAGE"],
-            image_config=types.ImageConfig(
-                aspect_ratio=aspect_ratio,
-                image_size=resolution,
-            ),
-        ),
+    """Send prompt (+ optional reference images) to the active image provider."""
+    return generate_image(
+        prompt,
+        aspect_ratio,
+        resolution,
+        ref_images,
+        seed=seed,
     )
-
-    for part in response.candidates[0].content.parts:
-        if part.inline_data:
-            return part.inline_data.data
-    return None
 
 
 def build_gallery(brand_dir: Path, brand_name: str, results: list[dict]) -> None:
@@ -470,7 +436,7 @@ def main() -> None:
     available = list_brands()
 
     parser = argparse.ArgumentParser(
-        description="Generate static ads with Nano Banana 2 (Google AI Studio)",
+        description="Generate static ads with the configured image provider",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=(
             "Examples (product):\n"
@@ -508,7 +474,7 @@ def main() -> None:
     parser.add_argument(
         "--resolution",
         default=DEFAULT_RESOLUTION,
-        choices=["512", "1K", "2K", "4K"],
+        choices=list(get_resolution_choices()),
         help=f"Image resolution (default: {DEFAULT_RESOLUTION})",
     )
     parser.add_argument(
@@ -554,13 +520,13 @@ def main() -> None:
         )
 
     # ── API key ───────────────────────────────────────────────────────────────
-    api_key = load_api_key()
-    if not api_key and not args.dry_run and not args.recommend:
+    missing = missing_image_api_key()
+    if missing and not args.dry_run and not args.recommend:
+        provider = "OpenRouter" if is_public_version() else "Google AI Studio"
         sys.exit(
-            "ERROR: GOOGLE_API_KEY not set.\n"
-            "  Option 1: set env var  →  export GOOGLE_API_KEY='your-key'\n"
-            f"  Option 2: add to      →  {ENV_FILE}\n"
-            "  Get your key at: https://aistudio.google.com/apikey"
+            f"ERROR: {missing} not set.\n"
+            f"  Add it to env/.env.local for {provider} image generation.\n"
+            f"  File: {ENV_FILE}"
         )
 
     # ── Load prompts ──────────────────────────────────────────────────────────
@@ -633,6 +599,8 @@ def main() -> None:
     print(f"  Brand    : {brand_name}" + (f"  /  {product}" if product else ""))
     print(f"  Type     : {args.brand_type}")
     print(f"  Model    : {MODEL}")
+    if is_public_version():
+        print(f"  Latency  : ~{get_public_image_latency_seconds()}s per image")
     print(f"  Templates: {len(all_prompts)}  x  {args.variations} variation(s)  =  {total} images")
     print(f"  Refs     : {refs_label}")
     print(f"  Res      : {args.resolution}  |  Output: brands/{args.brand}/outputs/")
@@ -674,13 +642,14 @@ def main() -> None:
         print()
         return
 
-    # ── Init Gemini client ────────────────────────────────────────────────────
-    client = genai.Client(api_key=api_key)
-
     # ── Generate ──────────────────────────────────────────────────────────────
     completed = 0
     failed    = 0
     results   = []
+    total_images = len(all_prompts) * args.variations
+    images_done = 0
+
+    emit_progress(35, f"Generating {total_images} image(s)…", phase="phase3", totalImages=total_images)
 
     for prompt_obj in all_prompts:
         num         = prompt_obj["template_number"]
@@ -705,9 +674,22 @@ def main() -> None:
         saved = []
 
         for v in range(1, args.variations + 1):
+            images_done += 1
+            pct = 35 + int((images_done / max(total_images, 1)) * 60)
+            emit_progress(
+                pct,
+                f"Template {num} — variation {v}/{args.variations}",
+                phase="phase3",
+                template=num,
+                variation=v,
+                completedImages=images_done,
+                totalImages=total_images,
+            )
             print(f"  -> v{v}/{args.variations} ...", end=" ", flush=True)
             try:
-                img_bytes = call_api(client, prompt_text, aspect, args.resolution, refs)
+                img_bytes = call_api(
+                    prompt_text, aspect, args.resolution, refs, seed=v
+                )
 
                 if not img_bytes:
                     print("FAIL  no image in response")
@@ -731,12 +713,16 @@ def main() -> None:
         results.append({"num": num, "name": name, "saved": saved})
 
     # ── Gallery + final summary ───────────────────────────────────────────────
+    emit_progress(95, "Building gallery…", phase="phase3")
     build_gallery(brand_dir, brand_name, results)
 
     sep2 = "-" * 54
     print(f"\n{sep2}")
     print(f"  Done.  OK {completed} saved   FAIL {failed}   total {completed + failed}")
     print(f"{sep2}\n")
+
+    if failed > 0 and completed == 0:
+        sys.exit(1)
 
 
 if __name__ == "__main__":

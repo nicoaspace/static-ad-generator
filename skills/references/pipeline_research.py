@@ -12,22 +12,23 @@ Usage:
     python skills/references/pipeline_research.py --brand lmnt --url https://drinklmnt.com/ --product "LMNT Recharge" --type product
 
 Environment:
-    GOOGLE_API_KEY     — Google API key (for Phase 1 research)
-                         Or place it in env/.env.local as GOOGLE_API_KEY=your-key
+    PUBLIC_VERSION=true  → OPENROUTER_API_KEY (LLM research)
+    PUBLIC_VERSION=false → GOOGLE_API_KEY
+                         Or place keys in env/.env.local
 """
 
 import argparse
 import sys
 import time
 
-from config import load_google_key, brand_path
+from config import brand_path, get_llm_default_model, missing_llm_api_key
 from phase0_setup import setup_brand
 from phase1_brand_dna import generate_brand_dna
 
 
 def run_research(brand_name: str, url: str, product: str,
                  brand_type: str = "product",
-                 model: str = "gemini-2.0-flash") -> dict:
+                 model: str | None = None) -> dict:
     """
     Run Phase 0 (setup) + Phase 1 (research).
 
@@ -38,7 +39,7 @@ def run_research(brand_name: str, url: str, product: str,
         url: Brand's main website URL
         product: Specific product or service name
         brand_type: "product" or "service"
-        model: Gemini model for Phase 1
+        model: LLM model for Phase 1 (default: provider-specific)
 
     Returns:
         Dict with paths and timing for each phase.
@@ -53,9 +54,12 @@ def run_research(brand_name: str, url: str, product: str,
     print(f"#  Product: {product}")
     print(f"{'#'*60}")
 
+    resolved_model = model or get_llm_default_model()
+
     # Validate API key
-    if not load_google_key():
-        sys.exit("Error: GOOGLE_API_KEY not found. Set it as env var or in env/.env.local")
+    missing = missing_llm_api_key()
+    if missing:
+        sys.exit(f"Error: {missing} not found. Set it as env var or in env/.env.local")
 
     # Phase 0: Setup
     start = time.time()
@@ -64,7 +68,7 @@ def run_research(brand_name: str, url: str, product: str,
 
     # Phase 1: Brand DNA
     start = time.time()
-    dna_path = generate_brand_dna(brand_name, url, product, brand_type, model)
+    dna_path = generate_brand_dna(brand_name, url, product, brand_type, resolved_model)
     results["phase1"] = {"path": dna_path, "time": time.time() - start}
 
     # Summary
@@ -113,8 +117,8 @@ Examples:
     parser.add_argument("--product", required=True, help="Specific product or service name")
     parser.add_argument("--type", choices=["product", "service"], default="product",
                         help="Brand type: product or service (default: product)")
-    parser.add_argument("--model", default="gemini-2.0-flash",
-                        help="Gemini model for Phase 1")
+    parser.add_argument("--model", default=None,
+                        help=f"LLM model for Phase 1 (default: {get_llm_default_model()})")
 
     args = parser.parse_args()
 
@@ -123,7 +127,7 @@ Examples:
         url=args.url,
         product=args.product,
         brand_type=args.type,
-        model=args.model,
+        model=args.model or get_llm_default_model(),
     )
 
 
