@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Static Ad Gen — AI-Powered Ad Studio",
-  description: "Create premium static ad variations for DTC and SaaS in minutes with Gemini Flash.",
+  description: "Create premium static ad variations for DTC and SaaS in minutes with free AI providers.",
 };
 
 export default function RootLayout({

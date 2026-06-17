@@ -36,7 +36,7 @@ export default function LoginPage() {
             Static Ad Gen
           </h1>
           <p className="text-sm text-zinc-400 mt-2 max-w-xs">
-            Generate DTC and SaaS ad creatives in seconds using AI
+            Generate DTC and SaaS ad creatives in seconds — powered by free AI providers
           </p>
         </div>
 
@@ -93,16 +93,16 @@ export default function LoginPage() {
         {/* Feature Highlights */}
         <div className="grid grid-cols-3 gap-4 mt-8 px-2">
           <div className="text-center">
-            <span className="text-xs font-semibold text-cyan-400 block">Grounding</span>
-            <span className="text-[10px] text-zinc-500">Google Search DNA</span>
+            <span className="text-xs font-semibold text-cyan-400 block">Brand DNA</span>
+            <span className="text-[10px] text-zinc-500">AI-powered research</span>
           </div>
           <div className="text-center border-x border-zinc-800/80">
-            <span className="text-xs font-semibold text-purple-400 block">98% Cheaper</span>
-            <span className="text-[10px] text-zinc-500">Gemini 2.0 Flash</span>
+            <span className="text-xs font-semibold text-purple-400 block">Free AI Providers</span>
+            <span className="text-[10px] text-zinc-500">OpenRouter stack</span>
           </div>
           <div className="text-center">
-            <span className="text-xs font-semibold text-pink-400 block">Banana v2</span>
-            <span className="text-[10px] text-zinc-500">Text-to-Image</span>
+            <span className="text-xs font-semibold text-pink-400 block">Grok Imagine</span>
+            <span className="text-[10px] text-zinc-500">~7.99s per image</span>
           </div>
         </div>
       </div>
