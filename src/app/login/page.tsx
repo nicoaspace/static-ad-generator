@@ -33,7 +33,7 @@ export default function LoginPage() {
             <Sparkles className="w-8 h-8 text-white" />
           </div>
           <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
-            Static Ad Gen
+            Static Ad Gen - Tu Publicas
           </h1>
           <p className="text-sm text-zinc-400 mt-2 max-w-xs">
             Generate DTC and SaaS ad creatives in seconds — powered by free AI providers
