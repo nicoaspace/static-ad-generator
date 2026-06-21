@@ -759,7 +759,7 @@ function DashboardContent() {
           <div className="w-9 h-9 rounded-xl bg-cyan-500 flex items-center justify-center shadow-lg shadow-cyan-500/10">
             <Sparkles className="w-5 h-5 text-zinc-950" />
           </div>
-          <span className="font-extrabold text-xl tracking-tight text-zinc-100">Static Ad Gen</span>
+          <span className="font-extrabold text-xl tracking-tight text-zinc-100">Static Ad Gen - Tu Publicas</span>
           <span className="text-[10px] bg-zinc-800 px-2 py-0.5 rounded-full text-zinc-400 border border-zinc-700/50">
             Micro-SaaS Demo
           </span>
